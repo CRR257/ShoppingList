@@ -1,0 +1,32 @@
+.spinner {
+    height: 100%;
+    width: 3rem; 
+    height: 3rem;
+    color: rgb(8, 8, 214);
+    position: absolute;
+    top: 50%;
+
+}
+
+.container-tasks {
+    // padding-left: 10rem;
+    // align-items: baseline;
+    // position: relative;
+    // top: 6rem;
+    // max-width: 90%;
+}
+
+.container-task {
+    text-decoration: none;
+    list-style-type: none;
+    display: flex;
+    background-color: grey;
+    padding: 5px 10px;
+    border-radius: 4px;
+    position: relative;
+    top: 20px;
+
+    margin-bottom: 10px;
+    justify-content: space-between;
+    overflow: auto;
+}

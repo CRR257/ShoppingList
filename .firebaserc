@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ourshoppinglist-3ba7d": {
+      "hosting": {
+        "ourShoppingList": [
+          "ourshoppinglist-3ba7d"
+        ]
+      }
+    }
+  }
+}

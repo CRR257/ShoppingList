@@ -1,0 +1,40 @@
+<div>
+    <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
+      <h3 class="m-3">Sign Up</h3>
+        <div class="mb-3 card p-3 m-3">
+  
+        <div class="formGroup">
+          <label class="form-label">Email: </label>
+          <input type="email" class="form-control" placeholder="Email Address" formControlName="email" required>
+        </div>
+  
+        <div class="formGroup">
+          <label class="form-label">Password: </label>
+          <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Register</button> 
+  
+        <!-- Continue with Google -->
+        <!-- <div class="formGroup">
+          <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
+            <i class="fab fa-google-plus-g"></i>
+            Continue with Google
+          </button>
+        </div> -->
+  
+        <!-- Continue with Facebook -->
+        <!-- <div class="formGroup">
+          <button type="button" class="btn facebookBtn" (click)="authService.FacebookAuth()">
+            <i class="fab fa-facebook"></i>
+            Continue with Facebook
+          </button>
+        </div>
+      </div> -->
+    </div>
+</form>
+      <div class="redirectToLogin">
+        <span>Already have an account? <button class="btn btn-warning mt-3" routerLink="/sign-in">Log In</button></span>
+      </div>
+    <!-- </div> -->
+  
+  </div>
