@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth-service';
+import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { Router } from "@angular/router";
 import { ShoppingListService } from 'src/app/shared/services/shoppinglist/shoppinglist.service';
 import { ShoppingList, NewItem } from 'src/app/shared/models/user.interface';
