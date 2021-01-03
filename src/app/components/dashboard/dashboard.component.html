@@ -1,86 +1,112 @@
-<!-- Top navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div>
-    <a class="nav-link" (click)="authService.logout()">
-      <!-- <a class="nav-link" *ngIf="authService.userData | async" (click)="authService.logout()"> -->
-      <i class="fas fa-sign-out-alt"></i>Log out
-    </a>
-  </div>
-</nav>
-
-  <div class="formGroup" class="container">
-    <h3 class="mt-3 mb-4" class="container-title pb-4">Our Shopping List</h3>
-    <form [formGroup]="newItemForm">
-      <div class="form-group">
+<div class="formGroup" class="container">
+  <h3 class="mt-3 mb-4" class="container-title pb-4">Our Shopping List</h3>
+  <form [formGroup]="newItemForm">
+    <div class="form-group">
       <label>Name item:</label>
       <input class="form-control" formControlName="nameItem" />
-      </div>
-      <div class="form-group">
-        <label>Where to buy it:</label>
-        <select class="form-control" formControlName="placeToBuyIt">
-          <option value="bonPreu">BonPreu</option>
-          <option value="bonArea">BonArea</option>
-          <option value="altres">Altres</option>
-        </select>
-        <button type="submit" class="btn btn-primary mt-3 button" (click)="createItem(newItemForm.value)">Save</button>
-      </div>
-    </form>
-  </div>
+    </div>
+    <div class="form-group">
+      <label>Where to buy it:</label>
+      <select class="form-control" formControlName="placeToBuyIt">
+        <option value="bonPreu">BonPreu</option>
+        <option value="bonArea">BonArea</option>
+        <option value="altres">Altres</option>
+      </select>
+      <button type="submit" class="btn btn-primary mt-3 button"
+        (click)="createItem(newItemForm.value)">Save</button>
+    </div>
+  </form>
+</div>
 
-  <div id="accordion" class="container-tasks">
-    <div class="card">
-      <div id="headingOne">
-        <h5 class="mb-0">
-          <button class="btn btn-accordion" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Bonpreu
-          </button>
-        </h5>
-      </div>
-  
-      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-         <ul *ngFor="let item of shoppingListBonPreu">
-    <li class="container-task">
-      <p>{{item.nameItem}}</p>
-      <div>
-        <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
-        <button type="submit" (click)="editeItem(item.id)">Edit item</button>
-      </div>
-    </li>
-  </ul>
-        </div>
+<div id="accordion" class="container-tasks">
+  <div class="card">
+    <div id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-accordion" data-toggle="collapse"
+          data-target="#collapseOne" aria-expanded="true"
+          aria-controls="collapseOne">
+          Bonpreu
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+      data-parent="#accordion">
+      <div class="card-body">
+        <ul *ngFor="let item of shoppingListBonPreu">
+          <li class="container-task">
+            <p>{{item.nameItem}}</p>
+            <div>
+              <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
+              <button type="submit" (click)="editeItem(item.id)">Edit item</button>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
-
- 
-  <p>BonArea</p>
-  <ul *ngFor="let item of shoppingListBonArea">
-    <li>
-      <p>{{item.nameItem}}</p>
-      <div>
-        <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
-        <button type="submit" (click)="editeItem(item.id)">Edit item</button>
-      </div>
-    </li>
-  </ul>
-  <p>Others</p>
-  <ul *ngFor="let item of shoppingListAltres">
-    <li>
-      <p>{{item.nameItem}}</p>
-      <div>
-        <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
-        <button type="submit" (click)="editeItem(item.id)">Edit item</button>
-      </div>
-    </li>
-  </ul>
+  </div>
 </div>
+
+<div id="accordion" class="container-tasks">
+  <div class="card">
+    <div id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-accordion" data-toggle="collapse"
+          data-target="#collapseOne" aria-expanded="true"
+          aria-controls="collapseOne">
+          BonArea
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+      data-parent="#accordion">
+      <div class="card-body">
+        <ul *ngFor="let item of shoppingListBonArea">
+          <li class="container-task">
+            <p>{{item.nameItem}}</p>
+            <div>
+              <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
+              <button type="submit" (click)="editeItem(item.id)">Edit item</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="accordion" class="container-tasks">
+  <div class="card">
+    <div id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-accordion" data-toggle="collapse"
+          data-target="#collapseOne" aria-expanded="true"
+          aria-controls="collapseOne">
+          Altres
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+      data-parent="#accordion">
+      <div class="card-body">
+        <ul *ngFor="let item of shoppingListAltres">
+          <li class="container-task">
+            <p>{{item.nameItem}}</p>
+            <div>
+              <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
+              <button type="submit" (click)="editeItem(item.id)">Edit item</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- <div *ngIf="shoppingListUser$ | async as shoppingListUser; else loading">
       <p>ShoppingList user</p>
       {{shoppingListUser$ | async | json}}
     </div> -->
-
-
 <!-- <ng-template #loading> -->
 <div class="d-flex justify-content-center" *ngIf="loading">
   <div class="spinner-border spinner" role="status">

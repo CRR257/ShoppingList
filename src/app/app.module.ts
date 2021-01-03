@@ -20,6 +20,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 // import { AngularFireStorageModule, StorageBucket} from '@angular/fire/storage';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     SignInComponent,
     SignUpComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

@@ -16,14 +16,10 @@ import * as groupBy from "lodash/groupBy";
 export class DashboardComponent implements OnInit {
   userId: string = '';
   loading: boolean = false;
-  //grouppedApps: ShoppingList[] = []
-  //shoppingListUser: ShoppingList[];
-  // shoppingListBonPreu: any
-  // shoppingListBonArea: any;
-  // shoppingListAltres: any
   shoppingListBonPreu: ShoppingList[] = [];
   shoppingListBonArea: ShoppingList[] = [];
   shoppingListAltres: ShoppingList[] = [];
+
   newItemForm = new FormGroup ({
     nameItem: new FormControl('', Validators.required),
     placeToBuyIt: new FormControl('', Validators.required)
@@ -32,42 +28,28 @@ export class DashboardComponent implements OnInit {
   constructor(public authService: AuthService,
     public shoppingListService: ShoppingListService,
     public router: Router,
-    public ngZone: NgZone) { this.getData();}
+    public ngZone: NgZone) { 
+      this.getData()
+    
+    }
 
   public shoppingLists$: Observable<ShoppingList[]>;
   public shoppingListUser$: Observable<ShoppingList[]>
   
 
-  ngOnInit(): void {
-    
-  
-    // function compare( a, b ) {
-    //   if ( a.placeToBuyIt < b.placeToBuyIt ){
-    //     return -1;
-    //   }
-    //   if ( a.placeToBuyIt > b.placeToBuyIt ){
-    //     return 1;
-    //   }
-    //   return 0;
-    // }
-    
-    // this.shoppingListUser.sort( compare );
-    //console.log(this.shoppingListUser)
-    
-    // console.log(this.shoppingListUser$)
-    // this.shoppingListUser$.pipe(map(results => console.log(results)))
-    // this.shoppingListUser$
-  }
+  ngOnInit(): void { }
 
-  getData() {
+  async getData() {
+    //https://stackoverflow.com/questions/52115904/how-to-call-a-function-after-the-termination-of-another-function-in-angular
+    
     this.loading = true;
     //this.shoppingLists$ = this.shoppingListService.getShoppingList();
-    let user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
-    this.userId = user.uid;
-    //let collectionsName = 'shoppingList-' + `${this.userId}`
+   
+    let user = await this.getUsers(); 
+    
+    
     let userShoppingList = 'shoppingList-' + `${this.userId}`
-    this.shoppingListUser$ = this.shoppingListService.getShoppingUser(userShoppingList);
+    //this.shoppingListUser$ = this.shoppingListService.getShoppingUser(userShoppingList);
     this.shoppingListService.getShoppingUser(userShoppingList).subscribe(apps => {
       let grouppedApps = groupBy(apps,"placeToBuyIt");
       console.log(grouppedApps)
@@ -84,44 +66,14 @@ export class DashboardComponent implements OnInit {
       console.log("bon area => ", this.shoppingListBonArea)
       console.log("bon preu => ", this.shoppingListBonPreu)
       this.loading = false;
-      // You can do whatever you want now
     } );
-    //  function compare( a, b ) {
-    //   if ( a.placeToBuyIt < b.placeToBuyIt ){
-    //     return -1;
-    //   }
-    //   if ( a.placeToBuyIt > b.placeToBuyIt ){
-    //     return 1;
-    //   }
-    //   return 0;
-    // }
-    
-    // this.shoppingListUser.sort( compare );
-    // console.log(this.shoppingListUser)
-    
-    // console.log(this.shoppingListUser$)
-    // this.shoppingListService.getShoppingUser(userShoppingList).subscribe( shoppingList => {
-    //   this.shoppingListUser = shoppingList;
-    //   this.getShoppingList(this.shoppingListUser)
-    // })
-   
   }
 
-  // getShoppingList(shoppingList) {
-  //   for(let i=0; i < shoppingList.length; i++) {
-  //     if( shoppingList[i].placeToBuyIt === 'bonArea') {
-  //       this.shoppingListBonArea.push(shoppingList[i]);
-  //     } else if (shoppingList[i].placeToBuyIt === 'bonPreu') {
-  //       this.shoppingListBonPreu.push(shoppingList[i]);
-  //     } else {
-  //       this.shoppingListAltres.push(shoppingList[i]);
-  //     }
-  //   }
-    
-  //   console.log("bon area => ", this.shoppingListBonArea)
-  //   console.log("bon preu => ", this.shoppingListBonPreu)
-  // }
-
+  getUsers() {
+    let user = JSON.parse(localStorage.getItem('user'));
+    this.userId = user.uid;
+  }
+  
   deleteItem(item) {
     console.log(item)
   }
