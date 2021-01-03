@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth-service';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/shared/models/user.interface';
 import { Router } from '@angular/router';
@@ -17,21 +17,20 @@ export class SignInComponent implements OnInit {
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private authService: AuthService, public router: Router) { }
+  constructor(private authService: AuthService, public router: Router, 
+    public ngZone: NgZone) { }
 
-  ngOnInit(): void {
-    //this.onLogin(form);
-  }
+  ngOnInit(): void { }
 
   onLogin(form: User) {
     console.log('Form', form);
     this.authService.login(form)
     .then((result) => {
-      this.router.navigate(['dashboard']);
+      //this.router.navigate(['dashboard']);
       // this.router.navigate(['/']);
-      // this.ngZone.run(() => {
-      //   this.router.navigate(['dashboard']);
-      // });
+      this.ngZone.run(() => {
+        this.router.navigate(['dashboard']);
+      });
       //this.SetUserData(result.user);
     }).catch((error) => {
       window.alert(error.message)

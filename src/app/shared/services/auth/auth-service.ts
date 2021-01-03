@@ -1,13 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from "../models/user.interface";
+import { User } from "../../models/user.interface";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-// import { auth } from 'firebase/app';
 import * as firebase from 'firebase';
-import { ShoppingListService } from './shoppinglist/shoppinglist.service';
+import { ShoppingListService } from '../shoppinglist/shoppinglist.service';
 import { EmailValidator } from '@angular/forms';
 
 @Injectable({
@@ -37,9 +36,6 @@ export class AuthService {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user'));
-        // if (this.userData.emailVerified) {
-        //   return true;
-        // }
       } else {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
