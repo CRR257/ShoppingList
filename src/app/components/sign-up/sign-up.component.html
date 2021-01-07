@@ -1,29 +1,42 @@
-<div>
-    <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
-      <h3 class="m-3">Sign Up</h3>
-        <div class="mb-3 card p-3 m-3">
-  
-        <div class="formGroup">
-          <label class="form-label">Email: </label>
-          <input type="email" class="form-control" placeholder="Email Address" formControlName="email" required>
-        </div>
-  
-        <div class="formGroup">
-          <label class="form-label">Password: </label>
-          <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Register</button> 
-  
-        <!-- Continue with Google -->
-        <!-- <div class="formGroup">
+<div class="container">
+  <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
+    <h3 class="m-3">Sign Up</h3>
+    <div class="mb-3 card p-3 m-3 container-sign">
+
+      <div class="formGroup mt-3">
+        <span class="form-label">Name: </span>
+        <input type="text" class="form-control" placeholder="Name" formControlName="displayName" required>
+      </div>
+
+      <div class="formGroup mt-3">
+        <span class="form-label">Email: </span>
+        <input type="email" class="form-control" placeholder="Email Address" formControlName="email" required>
+      </div>
+
+      <div class="formGroup mt-3">
+        <span class="form-label">Password: </span>
+        <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
+      </div>
+
+      <div class="formGroup mt-3" *ngIf="error">
+        <span class="error">{{error}}</span>
+      </div>
+
+      <div class="formGroup mt-3">
+        <button type="submit" class="btn btn-primary mt-3 btn btn-dark">Register</button>
+      </div>
+
+
+      <!-- Continue with Google -->
+      <!-- <div class="formGroup">
           <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
             <i class="fab fa-google-plus-g"></i>
             Continue with Google
           </button>
         </div> -->
-  
-        <!-- Continue with Facebook -->
-        <!-- <div class="formGroup">
+
+      <!-- Continue with Facebook -->
+      <!-- <div class="formGroup">
           <button type="button" class="btn facebookBtn" (click)="authService.FacebookAuth()">
             <i class="fab fa-facebook"></i>
             Continue with Facebook
@@ -31,10 +44,11 @@
         </div>
       </div> -->
     </div>
-</form>
-      <div class="redirectToLogin">
-        <span>Already have an account? <button class="btn btn-warning mt-3" routerLink="/sign-in">Log In</button></span>
-      </div>
-    <!-- </div> -->
-  
+  </form>
+
+  <div class="m-3">
+    <span class="mr-2">Already have an account?</span>
+    <button class="btn btn-secondary btn-sm" routerLink="/sign-in"> Sign Up</button>
   </div>
+
+</div>

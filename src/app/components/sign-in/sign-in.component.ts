@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
 })
 export class SignInComponent implements OnInit {
   emailIsVerified: boolean = false;
+  error: string = '';
 
   loginForm = new FormGroup ({
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private authService: AuthService, public router: Router, 
+  constructor(private authService: AuthService, public router: Router,
     public ngZone: NgZone) { }
 
   ngOnInit(): void { }
@@ -33,15 +34,15 @@ export class SignInComponent implements OnInit {
       });
       //this.SetUserData(result.user);
     }).catch((error) => {
-      window.alert(error.message)
+      this.error = error;
     })
     // this.authService.setUserToLocalStorage()
     // if (true) {
     //   alert(true)
     // }
-    
-    
-    
+
+
+
   }
 
 }

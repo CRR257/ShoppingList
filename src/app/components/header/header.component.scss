@@ -1,0 +1,9 @@
+.navbar {
+  min-height: 64px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  @media (min-width: 600px) {
+    padding: 0 3rem;
+  }
+}

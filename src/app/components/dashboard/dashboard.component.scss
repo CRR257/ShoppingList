@@ -1,6 +1,6 @@
 .spinner {
     height: 100%;
-    width: 3rem; 
+    width: 3rem;
     height: 3rem;
     color: rgb(8, 8, 214);
     position: absolute;
@@ -22,13 +22,15 @@
 
 .container {
     padding: 3rem 3rem;
+    height: unset;
     &-title {
         text-decoration: underline;
         display: flex;
         justify-content: center;
     }
-    &-tasks {
-        padding: 0 2rem 3rem 2rem;  
+
+    &-spinner {
+      height: 100vh;
     }
 }
 
@@ -47,4 +49,10 @@ nav {
     width: -webkit-fill-available;
     color: white;
     display: flex;
+}
+
+button {
+  width: -webkit-fill-available;
+  height: 38px;
+
 }

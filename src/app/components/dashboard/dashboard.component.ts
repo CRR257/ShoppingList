@@ -28,26 +28,36 @@ export class DashboardComponent implements OnInit {
   constructor(public authService: AuthService,
     public shoppingListService: ShoppingListService,
     public router: Router,
-    public ngZone: NgZone) { 
+    public ngZone: NgZone) {
       this.getData()
-    
+
     }
 
   public shoppingLists$: Observable<ShoppingList[]>;
   public shoppingListUser$: Observable<ShoppingList[]>
-  
+
 
   ngOnInit(): void { }
 
   async getData() {
     //https://stackoverflow.com/questions/52115904/how-to-call-a-function-after-the-termination-of-another-function-in-angular
-    
+
     this.loading = true;
     //this.shoppingLists$ = this.shoppingListService.getShoppingList();
-   
-    let user = await this.getUsers(); 
-    
-    
+
+    let user = await this.getUsers();
+    if(this.userId) {
+
+   this.getShoppingList();
+}
+  }
+
+  getUsers() {
+    let user = JSON.parse(localStorage.getItem('user'));
+    this.userId = user.uid;
+  }
+
+  getShoppingList() {
     let userShoppingList = 'shoppingList-' + `${this.userId}`
     //this.shoppingListUser$ = this.shoppingListService.getShoppingUser(userShoppingList);
     this.shoppingListService.getShoppingUser(userShoppingList).subscribe(apps => {
@@ -69,11 +79,6 @@ export class DashboardComponent implements OnInit {
     } );
   }
 
-  getUsers() {
-    let user = JSON.parse(localStorage.getItem('user'));
-    this.userId = user.uid;
-  }
-  
   deleteItem(item) {
     console.log(item)
   }
