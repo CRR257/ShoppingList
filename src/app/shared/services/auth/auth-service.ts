@@ -3,11 +3,14 @@ import { User } from "../../models/user.interface";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {ourkeys} from '../../../../environments/environment';
 import * as firebase from 'firebase';
 import { ShoppingListService } from '../shoppinglist/shoppinglist.service';
 import { EmailValidator } from '@angular/forms';
+import { TouchSequence } from 'selenium-webdriver';
+import * as groupBy from "lodash/groupBy";
 
 @Injectable({
   providedIn: 'root'
@@ -15,33 +18,65 @@ import { EmailValidator } from '@angular/forms';
 
 export class AuthService {
   userData: User; // Save logged in user data (abans era any)
+  users: User[] = [];
+  userLogged: User[] = [];
   //public userData: Observable<firebase.User>; // Save logged in user data
-
+  private storageSub= new Subject<String>();
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
-  ) {
-    /* Saving user data in localstorage when
-    logged in and setting up null when logged out */
-    //this.userData = afAuth.aut,hState;
-    this.setUserToLocalStorage();
+  ) { }
+
+  watchStorage(): Observable<any> {
+    return this.storageSub.asObservable();
+  }
+
+  getAllUsers() {
+    this.getUsers().subscribe(apps => {
+      this.users = apps;
+    })
   }
 
   setUserToLocalStorage() {
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
+       this.userData = user;
+        if (user.uid === ourkeys.uid1 || ourkeys.uid2) {  // change for new users
+          for (let i = 0; i< this.users.length; i++) {
+            if (this.users[i].uid === user.uid) {
+              this.userLogged.push(this.users[i])
+            }
+          }
+        }
+        console.log(this.userLogged)
+        localStorage.setItem('user', JSON.stringify(this.userLogged));
+        this.storageSub.next('changed');
+        // console.log(JSON.stringify(this.users))
+        // console.log(this.users)
       } else {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
     })
   }
+
+
+getUsers(): Observable<User[]> {
+    return this.afs
+      .collection("users")
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map( a => {
+          const data = a.payload.doc.data() as User;
+          const id = a.payload.doc.id;
+          return {id, ...data}
+        }))
+      )
+  }
+
   // Sign in with email/password
   login(user: User) {
     const {email, password} = user;
@@ -105,15 +140,23 @@ export class AuthService {
       emailVerified: user.emailVerified,
     }
 
-    return userRef.set(userData, {
-      merge: true
-    })
+    this.afs
+    .collection('users')
+    .doc(userData.uid)
+    .set(userData, { merge: true })
+    // return userRef.set(userData, {
+    //   merge: true
+    // })
+
+    //https://angularquestions.com/2021/01/02/catching-errors-in-async-functions-in-an-async-function/
   }
 
   // Sign out
   logout() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
+      this.storageSub.next('logout');
+      this.userLogged = [];
       this.router.navigate(['sign-in']);
     })
  }

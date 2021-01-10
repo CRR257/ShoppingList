@@ -26,6 +26,7 @@ export class SignUpComponent implements OnInit {
     this.authService.register(form)
     .then((result) => {
       this.authService.sendVerificationMail();
+      //result.user.displayName = form.displayName;
       this.authService.setUserData(result.user, form.displayName);
     }).catch((error) => {
       this.error = error;

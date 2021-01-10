@@ -21,7 +21,9 @@ export class SignInComponent implements OnInit {
   constructor(private authService: AuthService, public router: Router,
     public ngZone: NgZone) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.authService.getAllUsers();
+   }
 
   onLogin(form: User) {
     console.log('Form', form);
@@ -29,10 +31,12 @@ export class SignInComponent implements OnInit {
     .then((result) => {
       //this.router.navigate(['dashboard']);
       // this.router.navigate(['/']);
+
+      //this.authService.setUserData(result.user);
+      this.authService.setUserToLocalStorage();
       this.ngZone.run(() => {
         this.router.navigate(['dashboard']);
       });
-      //this.SetUserData(result.user);
     }).catch((error) => {
       this.error = error;
     })

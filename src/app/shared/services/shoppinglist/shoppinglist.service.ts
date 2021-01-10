@@ -19,18 +19,18 @@ export class ShoppingListService {
     userId: string = '';
     //const userCollection = 'shoppingList' + this.userId;
     userCollection: AngularFirestoreCollection<NewItem>;
-    
+
     shoppingList: any; // Save logged in user data
     userData: any;
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
-    public afAuth: AngularFireAuth, 
-    public router: Router,  
+    public afAuth: AngularFireAuth,
+    public router: Router,
     private http: HttpClient,
     public ngZone: NgZone // NgZone service to remove outside scope warning
-  ) {   
-    /* Saving user data in localstorage when 
+  ) {
+    /* Saving user data in localstorage when
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
         if (user) {
@@ -45,16 +45,16 @@ export class ShoppingListService {
           JSON.parse(localStorage.getItem('user'));
         }
       })
-   
+
 }
 
- 
+
 
 
 // https://firestore.googleapis.com/v1/projects/<PROJECTIDHERE>/databases/(default)/documents/<COLLECTIONNAME
 
-  // /* Setting up user data when sign in with username/password, 
-  // sign up with username/password and sign in with social auth  
+  // /* Setting up user data when sign in with username/password,
+  // sign up with username/password and sign in with social auth
   // provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   // SetShoppingList(user, userInformation) {
   //   //const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
@@ -80,7 +80,7 @@ export class ShoppingListService {
   //      }))
   //    )
   // }
- 
+
   public getShoppingUser(id: string): Observable<ShoppingList[]>{
     return this.afs.collection(id)
      .snapshotChanges()
@@ -90,7 +90,7 @@ export class ShoppingListService {
          const id = a.payload.doc.id;
         //  let bonArea = a.payload.doc.data() as ShoppingList
         //  console.log(data)
-         
+
         // if (data.placeToBuyIt === 'bonArea') {
         //   console.log('bonArea', data)
         //   this.bonArea  = data
@@ -98,6 +98,7 @@ export class ShoppingListService {
         //  return { id, ...data, ...bonArea };
         return {id, ...data}
        }))
+       
       //  return this.afs.collection(id)
       //  .snapshotChanges()
       //  .pipe(
@@ -109,7 +110,7 @@ export class ShoppingListService {
       //      return { id, ...data };
       //    }))
      )
-     
+
   }
 
   public deleteItem(id) {

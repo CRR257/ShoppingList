@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { Router } from "@angular/router";
 import { ShoppingListService } from 'src/app/shared/services/shoppinglist/shoppinglist.service';
-import { ShoppingList, NewItem } from 'src/app/shared/models/user.interface';
+import { ShoppingList, NewItem, User } from 'src/app/shared/models/user.interface';
 import { Observable } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { map, toArray, mergeMap } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import * as groupBy from "lodash/groupBy";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  userLogged: User[] = []
   userId: string = '';
   loading: boolean = false;
   shoppingListBonPreu: ShoppingList[] = [];
@@ -29,7 +30,7 @@ export class DashboardComponent implements OnInit {
     public shoppingListService: ShoppingListService,
     public router: Router,
     public ngZone: NgZone) {
-      this.getData()
+      //this.getData()
 
     }
 
@@ -37,7 +38,10 @@ export class DashboardComponent implements OnInit {
   public shoppingListUser$: Observable<ShoppingList[]>
 
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.getUserLogged();
+    this.getShoppingList();
+  }
 
   async getData() {
     //https://stackoverflow.com/questions/52115904/how-to-call-a-function-after-the-termination-of-another-function-in-angular
@@ -45,19 +49,24 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     //this.shoppingLists$ = this.shoppingListService.getShoppingList();
 
-    let user = await this.getUsers();
-    if(this.userId) {
+//     let user = await this.getUsers();
+//     if(this.userId) {
 
-   this.getShoppingList();
-}
+//    this.getShoppingList();
+// }
   }
 
-  getUsers() {
+  getUserLogged() {
     let user = JSON.parse(localStorage.getItem('user'));
     this.userId = user.uid;
   }
+  // getUsers() {
+  //   let user = JSON.parse(localStorage.getItem('user'));
+  //   this.userId = user.uid;
+  // }
 
   getShoppingList() {
+    this.loading = true;
     let userShoppingList = 'shoppingList-' + `${this.userId}`
     //this.shoppingListUser$ = this.shoppingListService.getShoppingUser(userShoppingList);
     this.shoppingListService.getShoppingUser(userShoppingList).subscribe(apps => {

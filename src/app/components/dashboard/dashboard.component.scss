@@ -22,6 +22,7 @@
 
 .container {
     padding: 3rem 3rem;
+    min-height: 100vh;
     height: unset;
     &-title {
         text-decoration: underline;
