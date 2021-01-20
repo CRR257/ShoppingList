@@ -9,10 +9,18 @@ export interface User {
 
 export interface ShoppingList {
     filter(arg0: (event: any) => void);
-    uid: string;
+    id: string;
     nameItem: string;
-    placeToBuyIt: string
+    placeToBuyIt: string;
+    // checked: boolean;
 }
+
+// export interface ListItems {
+//     id: String;
+//     placeToBuyIt: String;
+//     nameItem: String;
+//     // checked: boolean;
+// }
 
 export interface Id {
     id: string;
@@ -20,5 +28,6 @@ export interface Id {
 
 export interface NewItem {
     nameItem: string;
-    placeToBuyIt: string
+    placeToBuyIt: string;
+    // checked: false;
 }

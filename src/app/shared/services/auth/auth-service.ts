@@ -19,7 +19,7 @@ import * as groupBy from "lodash/groupBy";
 export class AuthService {
   userData: User; // Save logged in user data (abans era any)
   users: User[] = [];
-  userLogged: User[] = [];
+  userLogged = [];
   //public userData: Observable<firebase.User>; // Save logged in user data
   private storageSub= new Subject<String>();
 
@@ -43,13 +43,16 @@ export class AuthService {
   setUserToLocalStorage() {
     this.afAuth.authState.subscribe(user => {
       if (user) {
+      this.userLogged = [];
        this.userData = user;
         if (user.uid === ourkeys.uid1 || ourkeys.uid2) {  // change for new users
+        // if (user.uid === ourkeys.uid1 || ourkeys.uid2) {  // change for new users
           for (let i = 0; i< this.users.length; i++) {
             if (this.users[i].uid === user.uid) {
               this.userLogged.push(this.users[i])
             }
           }
+          //this.userLogged.push(user)
         }
         console.log(this.userLogged)
         localStorage.setItem('user', JSON.stringify(this.userLogged));
@@ -57,8 +60,9 @@ export class AuthService {
         // console.log(JSON.stringify(this.users))
         // console.log(this.users)
       } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
+        localStorage.clear();
+        //localStorage.setItem('user', null);
+        //JSON.parse(localStorage.getItem('user'));
       }
     })
   }
@@ -154,9 +158,11 @@ getUsers(): Observable<User[]> {
   // Sign out
   logout() {
     return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
+      localStorage.clear();
+      // this.userLogged = []
+      // localStorage.setItem('user', JSON.stringify(this.userLogged));
+      //localStorage.removeItem('user');
       this.storageSub.next('logout');
-      this.userLogged = [];
       this.router.navigate(['sign-in']);
     })
  }

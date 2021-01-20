@@ -21,6 +21,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 // import { AngularFireStorageModule, StorageBucket} from '@angular/fire/storage';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { HeaderComponent } from './components/header/header.component';
+import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
+import { BetsComponent } from './components/bets/bets.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { HeaderComponent } from './components/header/header.component';
     SignUpComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    HeaderComponent
+    HeaderComponent,
+    ShoppingListComponent,
+    BetsComponent
   ],
   imports: [
     BrowserModule,

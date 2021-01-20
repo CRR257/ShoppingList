@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
       console.log(this.userLogged)
       console.log(this.userLogged[0].displayName)
       this.nameUser = this.userLogged[0].displayName;
+      // this.nameUser = this.userLogged[0].displayName;
       } else {
         this.nameUser = '';
         this.userLogged = [];

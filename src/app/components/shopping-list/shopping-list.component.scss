@@ -1,0 +1,65 @@
+.spinner {
+  height: 100%;
+  width: 3rem;
+  height: 3rem;
+  color: black;
+  position: absolute;
+  top: 44%;
+  border-width: 5px;
+}
+
+.container-task {
+  text-decoration: none;
+  list-style-type: none;
+  display: flex;
+  background-color: grey;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  justify-content: space-between;
+  overflow: auto;
+}
+
+.container {
+  padding: 3rem 3rem;
+  min-height: 100vh;
+  height: unset;
+  &-title {
+      text-decoration: underline;
+      display: flex;
+      justify-content: center;
+  }
+
+  &-spinner {
+    height: 100vh;
+  }
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card {
+  border: 1px solid grey;
+  background-color: #808080ab;
+}
+
+.btn-accordion {
+  background-color: #464646bf;
+  width: -webkit-fill-available;
+  color: white;
+  display: flex;
+}
+
+button {
+width: -webkit-fill-available;
+height: 38px;
+&--icon {
+  width: 45px;
+  border: 1px solid #757575;
+  border-radius: 4px;
+  background-color: #f1efefe0;
+  height: 45px;
+}
+}

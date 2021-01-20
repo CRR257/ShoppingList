@@ -34,11 +34,13 @@ export class SignInComponent implements OnInit {
 
       //this.authService.setUserData(result.user);
       this.authService.setUserToLocalStorage();
+     //this.router.navigate(['shopping-list']);
       this.ngZone.run(() => {
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['shopping-list']);
       });
     }).catch((error) => {
       this.error = error;
+      console.log(error)
     })
     // this.authService.setUserToLocalStorage()
     // if (true) {
