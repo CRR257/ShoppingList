@@ -98,7 +98,7 @@ export class ShoppingListService {
         //  return { id, ...data, ...bonArea };
         return {id, ...data}
        }))
-       
+
       //  return this.afs.collection(id)
       //  .snapshotChanges()
       //  .pipe(
@@ -114,7 +114,12 @@ export class ShoppingListService {
   }
 
   public deleteItem(id) {
-    return this.userCollection.doc(id).delete();
+    this.userCollection.doc(id).delete();
+    return this.userCollection.get()
+    // this.userCollection.doc(id).delete();
+    // return this.userCollection.snapshotChanges()
+
+    //tutorialsRef.doc('id').delete();
   }
 
   public editItem(id, item) {

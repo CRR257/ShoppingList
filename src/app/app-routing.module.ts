@@ -12,20 +12,19 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { BetsComponent } from './components/bets/bets.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
   { path: 'sign-in', component: SignInComponent },
   { path: 'register-user', component: SignUpComponent },
   { path: 'dashboard', component: DashboardComponent, },
   { path: 'shopping-list', component: ShoppingListComponent },
-  { path: 'bets', component: BetsComponent },
+   { path: 'bets', component: BetsComponent },
   // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   // { path: 'shopping-list', component: ShoppingListComponent, canActivate: [AuthGuard] },
   // { path: 'bets', component: BetsComponent, canActivate: [AuthGuard]},
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerifyEmailComponent },
-  { path:'**', component: SignInComponent }
+  { path: '**', component: SignInComponent }
 ];
 
 

@@ -12,6 +12,7 @@ export interface ShoppingList {
     id: string;
     nameItem: string;
     placeToBuyIt: string;
+    isBuyed: boolean;
     // checked: boolean;
 }
 
@@ -29,5 +30,5 @@ export interface Id {
 export interface NewItem {
     nameItem: string;
     placeToBuyIt: string;
-    // checked: false;
+    isBuyed: boolean;
 }

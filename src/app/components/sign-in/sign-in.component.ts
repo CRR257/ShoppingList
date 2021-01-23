@@ -29,12 +29,10 @@ export class SignInComponent implements OnInit {
     console.log('Form', form);
     this.authService.login(form)
     .then((result) => {
-      //this.router.navigate(['dashboard']);
-      // this.router.navigate(['/']);
 
       //this.authService.setUserData(result.user);
       this.authService.setUserToLocalStorage();
-     //this.router.navigate(['shopping-list']);
+
       this.ngZone.run(() => {
         this.router.navigate(['shopping-list']);
       });
@@ -42,13 +40,6 @@ export class SignInComponent implements OnInit {
       this.error = error;
       console.log(error)
     })
-    // this.authService.setUserToLocalStorage()
-    // if (true) {
-    //   alert(true)
-    // }
-
-
-
   }
 
 }

@@ -15,7 +15,6 @@ import * as groupBy from "lodash/groupBy";
 })
 export class ShoppingListComponent implements OnInit {
 
-  // userLogged: User[] = [];
   userId: string = '';
   loading: boolean = false;
   shoppingListBonPreu: ShoppingList[] = [];
@@ -25,47 +24,29 @@ export class ShoppingListComponent implements OnInit {
 
   newItemForm = new FormGroup ({
     nameItem: new FormControl('', Validators.required),
-    placeToBuyIt: new FormControl('', Validators.required)
+    placeToBuyIt: new FormControl('', Validators.required),
+    checked: new FormControl('')
   });
 
   constructor(public authService: AuthService,
     public shoppingListService: ShoppingListService,
     public router: Router,
     public ngZone: NgZone) {
-      //this.getData()
-
-    }
+  }
 
   public shoppingLists$: Observable<ShoppingList[]>;
   public shoppingListUser$: Observable<ShoppingList[]>
 
 
   ngOnInit(): void {
-    //this.checkIfUserHasChanged();
    this.getUserLogged();
-  }
-
-  // checkIfUserHasChanged() {
-  //   this.authService.watchStorage().subscribe((data:string) => {
-  //     if (data === 'changed') {
-
-  //       this.userId = '';
-
-  //     }
-  //   })
-
-  // }
-
-  async getData() {
-    //https://stackoverflow.com/questions/52115904/how-to-call-a-function-after-the-termination-of-another-function-in-angular
-    //this.shoppingLists$ = this.shoppingListService.getShoppingList();
   }
 
   getUserLogged() {
     (async () => {
       this.loading = true;
         await timeout(2 * 1000);
-        let user = JSON.parse(localStorage.getItem('user'));
+        let user = JSON.parse(localStorage.getItem('user2'));
         if (typeof user === "object" && !Array.isArray(user)) {
           this.userId = user.uid;
         } else {
@@ -106,21 +87,35 @@ export class ShoppingListComponent implements OnInit {
   }
 
   deleteItem(item) {
-    console.log(item)
+    this.shoppingListService.deleteItem(item);
+    console.log("position" + this.shoppingListBonArea[0])
+    console.log(this.shoppingListBonArea.length)
+    this.getShoppingList();
   }
 
-  editeItem(item) {
-    console.log(item)
-  }
+  // editeItem(id, item) {
+  //   console.log(item)
+  //   this.shoppingListService.editItem(id, item)
+  // }
 
   checkItem(item) {
-    this.itemToCheck = item
+    item.isBuyed = !item.isBuyed;
+    let itemBuyed = {
+      nameItem: item.nameItem,
+      placeToBuyIt: item.placeToBuyIt,
+      isBuyed: item.isBuyed
+    }
+    this.shoppingListService.editItem(item.id, itemBuyed)
+    console.log(itemBuyed)
   }
 
   createItem(form: NewItem) {
     console.log(form)
-    this.newItemForm.patchValue({checked: false})
-    this.shoppingListService.newItem(form);
-    this.getData();
+    let item = {
+      nameItem: form.nameItem,
+      placeToBuyIt: form.placeToBuyIt,
+      isBuyed: false
+    }
+    this.shoppingListService.newItem(item);
   }
 }

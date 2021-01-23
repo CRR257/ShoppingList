@@ -12,10 +12,10 @@
   text-decoration: none;
   list-style-type: none;
   display: flex;
-  background-color: grey;
+  background-color: #dedede;
   padding: 5px 10px;
   border-radius: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   justify-content: space-between;
   overflow: auto;
 }
@@ -25,13 +25,16 @@
   min-height: 100vh;
   height: unset;
   &-title {
-      text-decoration: underline;
-      display: flex;
-      justify-content: center;
+    text-decoration: underline;
+    display: flex;
+    justify-content: center;
   }
-
   &-spinner {
     height: 100vh;
+  }
+  &-actions {
+    display: flex;
+    padding-top: 6px;
   }
 }
 
@@ -43,23 +46,43 @@ nav {
 .card {
   border: 1px solid grey;
   background-color: #808080ab;
+  &-body {
+    padding: 4px;
+  }
 }
 
 .btn-accordion {
-  background-color: #464646bf;
+  background-image: linear-gradient(175deg, #6a6e85 0, #1f3259 50%, #000030 100%);
   width: -webkit-fill-available;
   color: white;
   display: flex;
 }
 
 button {
-width: -webkit-fill-available;
-height: 38px;
-&--icon {
-  width: 45px;
+  width: 30px;
   border: 1px solid #757575;
   border-radius: 4px;
-  background-color: #f1efefe0;
   height: 45px;
 }
+
+.btn {
+  &-icon {
+    background-color: #9c9c9c;
+    margin-left: 6px;
+    height: 35px;
+  }
+  &-dark {
+    width: fit-content;
+  }
+}
+
+.item {
+  min-width: 100px;
+  padding-top: 12px;
+  &-buyed {
+    text-decoration: line-through;
+  }
+  &-notbuyed {
+    text-decoration: unset;
+  }
 }

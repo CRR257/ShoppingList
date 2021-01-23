@@ -33,12 +33,11 @@
       <div class="card-body">
         <ul *ngFor="let item of shoppingListBonPreu">
           <li class="container-task">
-            <p (click)="editeItem(item.id)">{{item.nameItem}}</p>
-            <!-- [ngClass]="{'my-class': step === 'step1'}">{{item.nameItem}} -->
-            <div>
-              <button type="submit" (click)="deleteItem(item.id)" class="button--icon"><i class="fas fa-trash-alt"></i></button>
+            <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">{{item.nameItem}}</p>
+            <div class="container-actions">
+              <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i class="fas fa-trash-alt"></i></button>
               <!-- <button type="submit" (click)="editeItem(item.id)"><i class="fas fa-user-edit"></i></button> -->
-              <!-- <button type="submit" (click)="checkItem(item.id)" class="button--icon"><i class="fas fa-check"></i></button> -->
+              <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
             </div>
           </li>
         </ul>
@@ -61,12 +60,13 @@
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
       data-parent="#accordion">
       <div class="card-body">
-        <ul *ngFor="let item of shoppingListBonArea">
-          <li class="container-task">
-            <p (click)="editeItem(item.id)">{{item.nameItem}}</p>
+        {{shoppingListBonArea.length}}
+        <ul *ngIf="shoppingListBonArea.length >= 1">
+          <li class="container-task" *ngFor="let item of shoppingListBonArea">
+              <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">{{item.nameItem}}</p>
             <div>
-              <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
-              <button type="submit" (click)="editeItem(item.id)">Edit item</button>
+              <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i class="fas fa-trash-alt"></i></button>
+              <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
             </div>
           </li>
         </ul>
@@ -91,10 +91,10 @@
       <div class="card-body">
         <ul *ngFor="let item of shoppingListAltres">
           <li class="container-task">
-            <p (click)="editeItem(item.id)">{{item.nameItem}}</p>
+              <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">{{item.nameItem}}</p>
             <div>
-              <button type="submit" (click)="deleteItem(item.id)">Delete item</button>
-              <button type="submit" (click)="editeItem(item.id)">Edit item</button>
+              <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i class="fas fa-trash-alt"></i></button>
+              <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
             </div>
           </li>
         </ul>

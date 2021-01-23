@@ -2,15 +2,16 @@ import { Injectable, NgZone } from '@angular/core';
 import { User } from "../../models/user.interface";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Router } from "@angular/router";
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {ourkeys} from '../../../../environments/environment';
-import * as firebase from 'firebase';
-import { ShoppingListService } from '../shoppinglist/shoppinglist.service';
-import { EmailValidator } from '@angular/forms';
-import { TouchSequence } from 'selenium-webdriver';
-import * as groupBy from "lodash/groupBy";
+// import * as firebase from 'firebase';
+// import { ShoppingListService } from '../shoppinglist/shoppinglist.service';
+// import { EmailValidator } from '@angular/forms';
+// import { TouchSequence } from 'selenium-webdriver';
+// import * as groupBy from "lodash/groupBy";
+// import { AuthGuard } from '../../guard/auth.guard';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,8 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
-  ) { }
+  ) {
+   }
 
   watchStorage(): Observable<any> {
     return this.storageSub.asObservable();
@@ -46,19 +48,16 @@ export class AuthService {
       this.userLogged = [];
        this.userData = user;
         if (user.uid === ourkeys.uid1 || ourkeys.uid2) {  // change for new users
-        // if (user.uid === ourkeys.uid1 || ourkeys.uid2) {  // change for new users
           for (let i = 0; i< this.users.length; i++) {
             if (this.users[i].uid === user.uid) {
               this.userLogged.push(this.users[i])
             }
           }
-          //this.userLogged.push(user)
         }
         console.log(this.userLogged)
-        localStorage.setItem('user', JSON.stringify(this.userLogged));
+
+        localStorage.setItem('user2', JSON.stringify(this.userLogged));
         this.storageSub.next('changed');
-        // console.log(JSON.stringify(this.users))
-        // console.log(this.users)
       } else {
         localStorage.clear();
         //localStorage.setItem('user', null);
@@ -97,7 +96,7 @@ getUsers(): Observable<User[]> {
   sendVerificationMail() {
     return this.afAuth.currentUser.then(u => u.sendEmailVerification())
     .then(() => {
-      this.router.navigate(['verify-email-address']);
+      this.router.navigate(['/verify-email-address']);
     })
   }
 
@@ -108,8 +107,10 @@ getUsers(): Observable<User[]> {
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
+  //  get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
+    return (user !== null) ? true : false;
+    // return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
 //   // Sign in with Google
@@ -123,7 +124,7 @@ getUsers(): Observable<User[]> {
     return this.afAuth.signInWithPopup(provider)
     .then((result) => {
        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['/dashboard']);
         })
       this.setUserData(result.user);
     }).catch((error) => {
@@ -135,7 +136,7 @@ getUsers(): Observable<User[]> {
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   setUserData(user: User, name?) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    //const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
@@ -158,12 +159,14 @@ getUsers(): Observable<User[]> {
   // Sign out
   logout() {
     return this.afAuth.signOut().then(() => {
-      localStorage.clear();
+      //localStorage.clear();
       // this.userLogged = []
       // localStorage.setItem('user', JSON.stringify(this.userLogged));
-      //localStorage.removeItem('user');
+      localStorage.removeItem('user');
+      localStorage.removeItem('user2');
+      // localStorage.removeItem('nameUser');
       this.storageSub.next('logout');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['/sign-in']);
     })
  }
 
