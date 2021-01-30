@@ -13,11 +13,16 @@
   list-style-type: none;
   display: flex;
   background-color: #dedede;
-  padding: 5px 10px;
+  padding: 0 10px;
   border-radius: 4px;
   margin-bottom: 5px;
   justify-content: space-between;
   overflow: auto;
+  @media (min-width: 768px) {
+    .container-task {
+      padding: 5px 10px;
+    }
+  }
 }
 
 .container {

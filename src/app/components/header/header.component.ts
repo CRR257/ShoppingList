@@ -8,7 +8,6 @@ import { User } from '../../shared/models/user.interface';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  //userLogged: any
   userLogged: User[] = [];
   nameUser: string = '';
 
@@ -20,26 +19,26 @@ export class HeaderComponent implements OnInit {
   }
 
   getUser() {
-    this.userLogged = JSON.parse(localStorage.getItem('user2'));
-    this.nameUser = this.userLogged[0].displayName;
+    this.userLogged = JSON.parse(localStorage.getItem('userLogged'));
+    if (this.userLogged) {
+      this.nameUser = this.userLogged[0].displayName;
+    }
   }
+
   getUserLogged() {
     this.authService.watchStorage().subscribe((data:string) => {
-      if (data === 'changed') {
+      if (data === 'userSignedIn') {
         this.getUser();
 
       // console.log(this.userLogged)
       // console.log(this.userLogged[0].displayName)
       // this.nameUser = this.userLogged[0].displayName !== 'null'? this.userLogged[0].displayName: 'stranger';
       // localStorage.setItem('nameUser', JSON.stringify(this.nameUser));
-      } else if (data === 'logout'){
+      } else if (data === 'userLogout'){
         this.nameUser = '';
         this.userLogged = [];
 
       }
     })
-    //   this.userLogged = user;
-    //   console.log(user)
-    // })
   }
 }

@@ -25,7 +25,7 @@ export class BetsComponent implements OnInit {
      (async () => {
        this.loading = true;
          await timeout(2 * 1000);
-         let user = JSON.parse(localStorage.getItem('user2'));
+         let user = JSON.parse(localStorage.getItem('userLogged'));
          if (typeof user === "object" && !Array.isArray(user)) {
            this.userId = user.uid;
          } else {

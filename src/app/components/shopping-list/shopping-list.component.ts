@@ -37,30 +37,15 @@ export class ShoppingListComponent implements OnInit {
   public shoppingLists$: Observable<ShoppingList[]>;
   public shoppingListUser$: Observable<ShoppingList[]>
 
-
   ngOnInit(): void {
    this.getUserLogged();
+   this.getShoppingList();
   }
 
   getUserLogged() {
-    (async () => {
-      this.loading = true;
-        await timeout(2 * 1000);
-        let user = JSON.parse(localStorage.getItem('user2'));
-        if (typeof user === "object" && !Array.isArray(user)) {
-          this.userId = user.uid;
-        } else {
-          this.userId = user[0].uid;
-        }
-        console.log(user)
-        this.getShoppingList();
-    })();
-
-    function timeout(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    let userLogged = JSON.parse(localStorage.getItem('userLogged'));
+    this.userId = userLogged[0].id;
   }
-
 
   getShoppingList() {
     let userShoppingList = 'shoppingList-' + `${this.userId}`
@@ -88,9 +73,14 @@ export class ShoppingListComponent implements OnInit {
 
   deleteItem(item) {
     this.shoppingListService.deleteItem(item);
-    console.log("position" + this.shoppingListBonArea[0])
-    console.log(this.shoppingListBonArea.length)
+    this.resetLists();
     this.getShoppingList();
+  }
+
+  resetLists() {
+    this.shoppingListBonPreu = [];
+    this.shoppingListBonArea = [];
+    this.shoppingListAltres = [];
   }
 
   // editeItem(id, item) {
@@ -106,7 +96,6 @@ export class ShoppingListComponent implements OnInit {
       isBuyed: item.isBuyed
     }
     this.shoppingListService.editItem(item.id, itemBuyed)
-    console.log(itemBuyed)
   }
 
   createItem(form: NewItem) {
@@ -117,5 +106,26 @@ export class ShoppingListComponent implements OnInit {
       isBuyed: false
     }
     this.shoppingListService.newItem(item);
+    this.getShoppingList()
   }
 }
+
+// getUserLogged() {
+  //   (async () => {
+  //     this.loading = true;
+  //       await timeout(2 * 1000);
+  //       let user = JSON.parse(localStorage.getItem('userLogged'));
+  //       if (typeof user === "object" && !Array.isArray(user)) {
+  //         this.userId = user.uid;
+  //       } else {
+  //         this.userId = user[0].uid;
+  //       }
+  //       console.log(user)
+  //       this.getShoppingList();
+  //   })();
+
+  //   function timeout(ms) {
+  //       return new Promise(resolve => setTimeout(resolve, ms));
+  //   }
+  // }
+

@@ -18,8 +18,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-// import { AngularFireStorageModule, StorageBucket} from '@angular/fire/storage';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+
+// Components
 import { HeaderComponent } from './components/header/header.component';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { BetsComponent } from './components/bets/bets.component';
@@ -42,23 +43,11 @@ import { BetsComponent } from './components/bets/bets.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AngularFireStorageModule, 
+    AngularFireStorageModule,
     HttpClientModule,
     ReactiveFormsModule
   ],
   providers: [AuthService],
-  // {provide: StorageBucket, useValue: 'gs://ourshoppinglist-3ba7d.appspot.com'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-
-// { Realtime Database
-//   "rules": {
-//     ".read": "auth === null",
-//     ".write": "auth === null"
-//   }
-// }
-
-// https://www.youtube.com/playlist?list=PL_9MDdjVuFjFPCptPjhr3iuzPK0_Nrm0s
-// https://www.youtube.com/watch?v=2BxXLU4F34I&list=PL_9MDdjVuFjFPCptPjhr3iuzPK0_Nrm0s&index=16

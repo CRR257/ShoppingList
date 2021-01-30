@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy": "ng run build --prod && firebase deploy --only hosting:ourlovelyshoppinglist"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +26,7 @@
     "bootstrap": "^4.5.3",
     "firebase": "^8.2.1",
     "jquery": "^3.5.1",
+    "lodash-es": "^4.17.20",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

@@ -13,15 +13,7 @@ export interface ShoppingList {
     nameItem: string;
     placeToBuyIt: string;
     isBuyed: boolean;
-    // checked: boolean;
 }
-
-// export interface ListItems {
-//     id: String;
-//     placeToBuyIt: String;
-//     nameItem: String;
-//     // checked: boolean;
-// }
 
 export interface Id {
     id: string;
