@@ -1,3 +1,9 @@
 .textarea {
-  padding: 10px;
+  width: -webkit-fill-available;
+  height: 30rem;
+  border: 1px solid #797878;
+  border-radius: 4px;
+  padding: 20px 12px;
+  font-size: 15px;
+  letter-spacing: 0.6px;
 }

@@ -3,7 +3,6 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree,
   Router
 } from "@angular/router";
 import { Observable } from "rxjs";
@@ -19,14 +18,11 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return false;
+    let userLogged = JSON.parse(localStorage.getItem("userLogged"));
+    if (userLogged) {
+      return true;
+    } else {
+      this.router.navigate(["/"]);
+    }
   }
-
-  // canActivate(next: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-  //     if(this.authService.isLoggedIn()) {
-  //       this.router.navigate(['shopping-list'])
-  //     }
-
-  //   return true;
-  // }
 }

@@ -13,7 +13,7 @@ export class AuthService {
   userData: User;
   users: User[] = [];
   userLogged = [];
-  //public userData: Observable<firebase.User>; // Save logged in user data
+
   private storageSub = new Subject<String>();
 
   constructor(
@@ -79,6 +79,7 @@ export class AuthService {
       }
     });
   }
+  
   setUser(): Promise<any> {
     return new Promise((resolve, reject) => {
       localStorage.setItem("userLogged", JSON.stringify(this.userLogged));

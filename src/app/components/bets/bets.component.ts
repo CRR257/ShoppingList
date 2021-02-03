@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { BetsService } from '../../shared/services/bets/bets-service';
+import { BetsService } from '../../shared/services/bets/bets.service';
+import { Bet } from '../../shared/models/bets.interface';
+
 
 @Component({
   selector: 'app-bets',
@@ -10,6 +12,8 @@ import { BetsService } from '../../shared/services/bets/bets-service';
 export class BetsComponent implements OnInit {
   userId: string = '';
   loading: boolean = false;
+  betList: any;
+  betId: string;
 
   betsForm = new FormGroup({
     text: new FormControl('')
@@ -19,33 +23,36 @@ export class BetsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserLogged();
+    this.getUserBets();
    }
 
    getUserLogged() {
-     (async () => {
-       this.loading = true;
-         await timeout(2 * 1000);
-         let user = JSON.parse(localStorage.getItem('userLogged'));
-         if (typeof user === "object" && !Array.isArray(user)) {
-           this.userId = user.uid;
-         } else {
-           this.userId = user[0].uid;
-         }
-         console.log(user)
-         this.getBets();
-     })();
+    let userLogged = JSON.parse(localStorage.getItem('userLogged'));
+    this.userId = userLogged[0].id;
+  }
 
-     function timeout(ms) {
-         return new Promise(resolve => setTimeout(resolve, ms));
+   getUserBets() {
+    let userBets = 'betsList-' + `${this.userId}`
+    this.betsService.getUserBets(userBets).subscribe(bets => {
+      let listBets = bets;
+      this.betList = listBets;
+      if(this.betList.length > 0) {
+      this.betList = listBets[0].text;
+      this.betId = bets[0].id;
+      }
+    })
+    this.loading = false;
+    console.log(this.betList)
+   }
+
+   modifyBet(form: Bet) {
+    let bet = {
+      text: form.text
+    }
+     if(this.betId === undefined) {
+      this.betsService.newBet(bet)
+     } else {
+      this.betsService.editBet(this.betId,bet)
      }
    }
-
-   getBets() {
-    let user = 'shoppingList-' + `${this.userId}`
-
-
-    this.loading = false;
-   }
-
-
 }

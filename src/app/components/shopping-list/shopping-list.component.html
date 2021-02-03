@@ -12,95 +12,91 @@
         <option value="bonArea">BonArea</option>
         <option value="altres">Altres</option>
       </select>
-      <button type="submit" class="btn mt-3 btn-dark mt-3"
-        (click)="createItem(newItemForm.value)">Save</button>
+      <button type="submit" class="btn mt-3 btn-dark mt-3" (click)="createItem(newItemForm.value)">Save
+      </button>
     </div>
   </form>
 
-<div id="accordion" class="mt-2 mb-2">
-  <div class="card">
-    <div id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-accordion" data-toggle="collapse"
-          data-target="#collapseOne" aria-expanded="true"
-          aria-controls="collapseOne">
-          Bonpreu
-        </button>
-      </h5>
-    </div>
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-      data-parent="#accordion">
-      <div class="card-body">
-        <ul *ngFor="let item of shoppingListBonPreu">
-          <li class="container-task">
-            <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">{{item.nameItem}}</p>
-            <div class="container-actions">
-              <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
-              <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i class="fas fa-trash-alt"></i></button>
-              <!-- <button type="submit" (click)="editeItem(item.id)"><i class="fas fa-user-edit"></i></button> -->
-            </div>
-          </li>
-        </ul>
+  <div id="accordion" class="mt-2 mb-2">
+    <div class="card">
+      <div id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-accordion" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+            aria-controls="collapseOne">
+            Bonpreu
+          </button>
+        </h5>
       </div>
-    </div>
-  </div>
-</div>
-
-<div id="accordion" class="mt-2 mb-2">
-  <div class="card">
-    <div id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-accordion" data-toggle="collapse"
-          data-target="#collapseOne" aria-expanded="true"
-          aria-controls="collapseOne">
-          BonArea
-        </button>
-      </h5>
-    </div>
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-      data-parent="#accordion">
-      <div class="card-body">
-        <ul *ngIf="shoppingListBonArea.length > 0">
-          <li class="container-task" *ngFor="let item of shoppingListBonArea">
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <ul>
+            <li class="container-task" *ngFor="let item of shoppingListBonPreu">
               <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">{{item.nameItem}}</p>
-            <div>
-              <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
-              <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i class="fas fa-trash-alt"></i></button>
-            </div>
-          </li>
-        </ul>
+              <div class="container-actions">
+                <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
+                <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
+                    class="fas fa-trash-alt"></i></button>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="accordion" class="mt-2 mb-2">
-  <div class="card">
-    <div id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-accordion" data-toggle="collapse"
-          data-target="#collapseOne" aria-expanded="true"
-          aria-controls="collapseOne">
-          Altres
-        </button>
-      </h5>
-    </div>
-    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-      data-parent="#accordion">
-      <div class="card-body">
-        <ul *ngIf="shoppingListAltres.length > 0">
-          <li class="container-task" *ngFor="let item of shoppingListAltres">
+  <div id="accordion" class="mt-2 mb-2">
+    <div class="card">
+      <div id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-accordion" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            BonArea
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <ul>
+            <li class="container-task" *ngFor="let item of shoppingListBonArea">
               <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">{{item.nameItem}}</p>
-            <div>
-              <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
-              <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i class="fas fa-trash-alt"></i></button>
-            </div>
-          </li>
-        </ul>
+              <div class="container-actions">
+                <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
+                <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
+                    class="fas fa-trash-alt"></i></button>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div id="accordion" class="mt-2 mb-2">
+    <div class="card">
+      <div id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-accordion" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+            aria-controls="collapseThree">
+            Altres
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+          <ul>
+            <li class="container-task" *ngFor="let item of shoppingListOthers">
+              <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">{{item.nameItem}}</p>
+              <div class="container-actions">
+                <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button>
+                <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
+                    class="fas fa-trash-alt"></i></button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="d-flex justify-content-center container-spinner" *ngIf="loading">
@@ -108,4 +104,3 @@
     <span class="sr-only">Loading...</span>
   </div>
 </div>
-

@@ -1,25 +1,20 @@
+<div class="container">
+  <h3 class="m-3">Thank You for Registering</h3>
 
-  <div class="container">
-      <h3 class="m-3">Thank You for Registering</h3>
+  <div class="mb-3 card p-3 m-3 container-sign">
 
-      <div class="mb-3 card p-3 m-3 container-sign">
-
-        <div class="formGroup mt-3 mb-3" *ngIf="authService.userData as user">
-          <span class="form-label">We have sent a confirmation email to <strong>{{user.email}}</strong>.</span><br>
-          <span class="form-label text">Please check your email and click on the link to verfiy your email address.</span>
-        </div>
-
-        <!-- Calling SendVerificationMail() method using authService Api -->
-        <div class="formGroup mt-3 mb-3">
-          <button type="button" class="btn mt-3 btn-dark" (click)="authService.sendVerificationMail()">
-            <i class="fas fa-redo-alt"></i>
-            Resend Verification Email
-          </button>
-        </div>
-
-      <div>
-        <button class="btn btn-secondary btn-sm" routerLink="/forgot-password">Forgot Password?</button>
-      </div>
-
+    <div class="formGroup mt-3 mb-3" *ngIf="authService.userData as user">
+      <span class="form-label">We have sent a confirmation email to <strong>{{user.email}}</strong>.</span><br>
+      <span class="form-label text">Please check your email and click on the link to verfiy your email address.</span>
     </div>
+    <div class="formGroup mt-3 mb-3">
+      <button type="button" class="btn mt-3 btn-dark" (click)="authService.sendVerificationMail()">
+        <i class="fas fa-redo-alt"></i>
+        Resend Verification Email
+      </button>
+    </div>
+    <div>
+      <button class="btn btn-secondary btn-sm" routerLink="/forgot-password">Forgot Password?</button>
+    </div>
+  </div>
 </div>

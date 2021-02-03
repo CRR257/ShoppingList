@@ -2,11 +2,10 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { Router } from "@angular/router";
 import { ShoppingListService } from 'src/app/shared/services/shoppinglist/shoppinglist.service';
-import { ShoppingList, NewItem, User } from 'src/app/shared/models/user.interface';
 import { Observable } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { map, toArray, mergeMap } from 'rxjs/operators';
 import * as groupBy from "lodash/groupBy";
+import { ShoppingList, NewShoppingItem } from '../../shared/models/shoppingList.interface';
 
 @Component({
   selector: 'app-shopping-list',
@@ -19,7 +18,7 @@ export class ShoppingListComponent implements OnInit {
   loading: boolean = false;
   shoppingListBonPreu: ShoppingList[] = [];
   shoppingListBonArea: ShoppingList[] = [];
-  shoppingListAltres: ShoppingList[] = [];
+  shoppingListOthers: ShoppingList[] = [];
   itemToCheck: string;
 
   newItemForm = new FormGroup ({
@@ -38,6 +37,7 @@ export class ShoppingListComponent implements OnInit {
   public shoppingListUser$: Observable<ShoppingList[]>
 
   ngOnInit(): void {
+    this.loading = true;
    this.getUserLogged();
    this.getShoppingList();
   }
@@ -49,22 +49,19 @@ export class ShoppingListComponent implements OnInit {
 
   getShoppingList() {
     let userShoppingList = 'shoppingList-' + `${this.userId}`
-    //this.shoppingListUser$ = this.shoppingListService.getShoppingUser(userShoppingList);
     this.shoppingListService.getShoppingUser(userShoppingList).subscribe(apps => {
     let grouppedApps = {}
     grouppedApps = groupBy(apps,"placeToBuyIt");
       console.log(grouppedApps)
-      console.log(typeof(grouppedApps))
       for (let i in grouppedApps) {
         if (i === 'bonArea') {
           this.shoppingListBonArea = grouppedApps[i];
         } else if (i === 'bonPreu') {
           this.shoppingListBonPreu = grouppedApps[i];
         } else {
-          this.shoppingListAltres = grouppedApps[i];
+          this.shoppingListOthers = grouppedApps[i];
         }
       }
-
       console.log("bon area => ", this.shoppingListBonArea)
       console.log("bon preu => ", this.shoppingListBonPreu)
       this.loading = false;
@@ -80,13 +77,8 @@ export class ShoppingListComponent implements OnInit {
   resetLists() {
     this.shoppingListBonPreu = [];
     this.shoppingListBonArea = [];
-    this.shoppingListAltres = [];
+    this.shoppingListOthers = [];
   }
-
-  // editeItem(id, item) {
-  //   console.log(item)
-  //   this.shoppingListService.editItem(id, item)
-  // }
 
   checkItem(item) {
     item.isBuyed = !item.isBuyed;
@@ -98,8 +90,7 @@ export class ShoppingListComponent implements OnInit {
     this.shoppingListService.editItem(item.id, itemBuyed)
   }
 
-  createItem(form: NewItem) {
-    console.log(form)
+  createItem(form: NewShoppingItem) {
     let item = {
       nameItem: form.nameItem,
       placeToBuyIt: form.placeToBuyIt,
@@ -109,23 +100,4 @@ export class ShoppingListComponent implements OnInit {
     this.getShoppingList()
   }
 }
-
-// getUserLogged() {
-  //   (async () => {
-  //     this.loading = true;
-  //       await timeout(2 * 1000);
-  //       let user = JSON.parse(localStorage.getItem('userLogged'));
-  //       if (typeof user === "object" && !Array.isArray(user)) {
-  //         this.userId = user.uid;
-  //       } else {
-  //         this.userId = user[0].uid;
-  //       }
-  //       console.log(user)
-  //       this.getShoppingList();
-  //   })();
-
-  //   function timeout(ms) {
-  //       return new Promise(resolve => setTimeout(resolve, ms));
-  //   }
-  // }
 

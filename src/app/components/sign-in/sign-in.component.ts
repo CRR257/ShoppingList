@@ -9,7 +9,6 @@ import { Router } from "@angular/router";
   templateUrl: "./sign-in.component.html",
   styleUrls: ["./sign-in.component.scss"]
 })
-
 export class SignInComponent implements OnInit {
   emailIsVerified: boolean = false;
   error: string = "";
@@ -41,21 +40,3 @@ export class SignInComponent implements OnInit {
       });
   }
 }
-
-// onLogin(form: User) {
-//   console.log('Form', form);
-//   this.authService.login(form)
-//   .then((result) => {
-//     if(result) {
-//     //this.authService.setUserData(result.user);
-//     this.authService.setUserToLocalStorage();
-//     }
-//     this.ngZone.run(() => {
-//       this.router.navigate(['shopping-list']);
-//     });
-
-//   }).catch((error) => {
-//     this.error = error;
-//     console.log(error)
-//   })
-// }
