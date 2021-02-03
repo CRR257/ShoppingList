@@ -1,6 +1,8 @@
 # OurShoppingList 🍇__🥑__🍇
 
-App to manage a shoppinglist
+App to manage a shoppinglist and a betsList
+
+[Live_demo](https://ourlovelyshoppinglist.web.app)
 
 ## Available Scripts
 ### Development server
