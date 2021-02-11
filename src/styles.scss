@@ -25,14 +25,20 @@ span {
   height: 100vh;
   max-width: 55rem;
   @media (max-width: 500px) {
-    padding: 2rem;
+    padding: 2rem 1.5rem;
   }
   @media (min-width: 500px) {
     padding: 3rem;
   }
 
   &-sign {
-    background-color: #a0a0a0;
+    background: linear-gradient(11deg, rgba(0,10,19,1) 8%, rgba(0,107,199,0.9164040616246498) 98%);
+    border: 1px solid #444343;
+  }
+  &__title {
+    text-decoration: underline;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -47,4 +53,8 @@ span {
 .error {
   color: #960c0c;
   font-weight: 600;
+}
+
+.btn-secondary {
+  background: linear-gradient(11deg, rgba(60,65,69,1) 41%, rgba(123,150,172,0.9164040616246498) 99%);
 }

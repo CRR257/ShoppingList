@@ -25,6 +25,7 @@ export class SignInComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.authService.logout();
     this.authService.getAllUsers();
   }
 

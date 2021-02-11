@@ -38,13 +38,11 @@ export class AuthService {
       if (user) {
         this.userLogged = [];
         this.userData = user;
-        // if (user.uid === ourkeys.uid1 || ourkeys.uid2) {  // change for new users
         for (let i = 0; i < this.users.length; i++) {
           if (this.users[i].uid === user.uid) {
             this.userLogged.push(this.users[i]);
           }
         }
-        // }
         console.log(this.userLogged);
         const localStorage1 = new Promise((resolve, reject) => {
           if (this.userLogged) {
@@ -79,7 +77,7 @@ export class AuthService {
       }
     });
   }
-  
+
   setUser(): Promise<any> {
     return new Promise((resolve, reject) => {
       localStorage.setItem("userLogged", JSON.stringify(this.userLogged));
