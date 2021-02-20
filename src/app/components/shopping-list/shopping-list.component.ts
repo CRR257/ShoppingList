@@ -23,7 +23,7 @@ export class ShoppingListComponent implements OnInit {
 
   newItemForm = new FormGroup ({
     nameItem: new FormControl('', Validators.required),
-    placeToBuyIt: new FormControl('', Validators.required),
+    placeToBuyIt: new FormControl('bonPreu', Validators.required),
     checked: new FormControl('')
   });
 
@@ -50,8 +50,9 @@ export class ShoppingListComponent implements OnInit {
   getShoppingList() {
     let userShoppingList = 'shoppingList-' + `${this.userId}`
     this.shoppingListService.getShoppingUser(userShoppingList).subscribe(apps => {
-    let grouppedApps = {}
-    grouppedApps = groupBy(apps,"placeToBuyIt");
+    let itemsSortedByName = apps.sort((a,b) => (a.nameItem < b.nameItem) ? -1 : ((a.nameItem > b.nameItem) ? 1 : 0 ))
+    let itemsSortedByNameAndState = itemsSortedByName.sort((a,b) => (a.isBuyed < b.isBuyed) ? -1 : ((a.isBuyed > b.isBuyed) ? 1 : 0 ))
+    let grouppedApps = groupBy(itemsSortedByNameAndState,"placeToBuyIt");
       console.log(grouppedApps)
       for (let i in grouppedApps) {
         if (i === 'bonArea') {
@@ -65,6 +66,8 @@ export class ShoppingListComponent implements OnInit {
       console.log("bon area => ", this.shoppingListBonArea)
       console.log("bon preu => ", this.shoppingListBonPreu)
       this.loading = false;
+    }, error => {
+      console.log(error)
     } );
   }
 
@@ -87,17 +90,23 @@ export class ShoppingListComponent implements OnInit {
       placeToBuyIt: item.placeToBuyIt,
       isBuyed: item.isBuyed
     }
-    this.shoppingListService.editItem(item.id, itemBuyed)
+    this.shoppingListService.editItem(item.id, itemBuyed);
+    this.getShoppingList();
   }
 
   createItem(form: NewShoppingItem) {
+    if (form.nameItem === '') {
+      return;
+    }
     let item = {
       nameItem: form.nameItem,
       placeToBuyIt: form.placeToBuyIt,
       isBuyed: false
     }
     this.shoppingListService.newItem(item);
-    this.getShoppingList()
+    this.getShoppingList();
+    this.newItemForm.controls.nameItem.reset();
+    this.newItemForm.controls.placeToBuyIt.setValue('bonPreu');
   }
 }
 

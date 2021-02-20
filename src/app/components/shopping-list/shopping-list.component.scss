@@ -67,6 +67,7 @@ button {
   &-icon {
     background-color: #d4d4d4;
     height: 33px;
+    margin: 0 auto;
   }
   &-dark {
     width: fit-content;
@@ -79,6 +80,7 @@ button {
   padding-top: 12px;
   &-buyed {
     text-decoration: line-through;
+    background-color: #b1aeae;
   }
   &-notbuyed {
     text-decoration: unset;

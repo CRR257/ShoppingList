@@ -29,9 +29,9 @@
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-          <ul>
-            <li class="container-task" *ngFor="let item of shoppingListBonPreu">
-              <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'" (click)="checkItem(item)">{{item.nameItem}}</p>
+          <ul *ngFor="let item of shoppingListBonPreu">
+            <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
+              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
               <div class="container-actions">
                 <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
                 <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
@@ -56,9 +56,9 @@
       </div>
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-          <ul>
-            <li class="container-task" *ngFor="let item of shoppingListBonArea">
-              <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'" (click)="checkItem(item)">{{item.nameItem}}</p>
+          <ul *ngFor="let item of shoppingListBonArea">
+            <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
+              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
               <div class="container-actions">
                 <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
                 <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
@@ -83,9 +83,9 @@
       </div>
       <div id="collapseThree" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-          <ul>
-            <li class="container-task" *ngFor="let item of shoppingListOthers">
-              <p class="item" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'" (click)="checkItem(item)">{{item.nameItem}}</p>
+          <ul *ngFor="let item of shoppingListOthers">
+            <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
+              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
               <div class="container-actions">
                 <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
                 <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
