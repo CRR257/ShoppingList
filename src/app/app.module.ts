@@ -23,6 +23,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { HeaderComponent } from './components/header/header.component';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { BetsComponent } from './components/bets/bets.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { BetsComponent } from './components/bets/bets.component';
     VerifyEmailComponent,
     HeaderComponent,
     ShoppingListComponent,
-    BetsComponent
+    BetsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

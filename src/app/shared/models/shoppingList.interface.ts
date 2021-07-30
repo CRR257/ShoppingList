@@ -1,5 +1,5 @@
 export interface ShoppingList {
-  filter(arg0: (event: any) => void);
+ // filter(arg0: (event: any) => void);
   id: string;
   nameItem: string;
   placeToBuyIt: string;
