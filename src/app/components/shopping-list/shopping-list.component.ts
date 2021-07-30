@@ -13,7 +13,6 @@ import { ShoppingList, NewShoppingItem } from '../../shared/models/shoppingList.
   styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-
   userId: string = '';
   loading: boolean = false;
   shoppingListBonPreu: ShoppingList[] = [];
