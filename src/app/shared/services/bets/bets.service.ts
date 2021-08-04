@@ -10,7 +10,7 @@ import { Bet, BetsList } from '../../models/bets.interface';
   providedIn: 'root'
 })
 export class BetsService {
-  userId: string = '';
+  userId = '';
   userBet: AngularFirestoreCollection<Bet>;
 
   userData: any;
@@ -27,7 +27,7 @@ export class BetsService {
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user'));
         this.userId = user.uid;
-        let bets = 'betsList-' + `${this.userId}`;
+        const bets = 'betsList-' + `${this.userId}`;
         this.userBet = afs.collection<BetsList>(bets);
       } else {
         localStorage.setItem('user', null);
@@ -44,8 +44,8 @@ export class BetsService {
         map(actions =>
           actions.map(a => {
             const data = a.payload.doc.data() as BetsList;
-            const id = a.payload.doc.id;
-            return { id, ...data };
+            const idBet = a.payload.doc.id;
+            return { idBet, ...data };
           })
         )
       );

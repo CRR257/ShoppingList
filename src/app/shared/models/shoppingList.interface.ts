@@ -1,13 +1,13 @@
 export interface ShoppingList {
  // filter(arg0: (event: any) => void);
   id: string;
-  nameItem: string;
+  name: string;
   placeToBuyIt: string;
   isBuyed: boolean;
 }
 
 export interface NewShoppingItem {
-  nameItem: string;
+  name: string;
   placeToBuyIt: string;
   isBuyed: boolean;
 }

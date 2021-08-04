@@ -1,13 +1,18 @@
 <div class="container">
   <h3 class="mt-3 mb-4" class="container__title pb-4">Profile</h3>
-  <form [formGroup]="supermarketForm" (ngSubmit)="submit()">
+  <form [formGroup]="supermarketsListFormControl" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <span>Select the supermarket do you usually buy:</span>
     <div class="form-check m-2" *ngFor="let item of supermarket">
-        <input class="form-check-input" type="checkbox" [checked]=item.selected value={item.selected} id="flexCheckChecked">
-        <label class="form-check-label" for="flexCheckChecked">
-            {{item.name}}
-        </label>
+<!--        <input class="form-check-input" type="checkbox" [checked]=item.selected value={item.selected} id="flexCheckChecked">-->
+<!--        <label class="form-check-label" for="flexCheckChecked">-->
+<!--            {{item.name}}-->
+<!--        </label>-->
+<!--      <mat-list>-->
+<!--      <mat-list-item>-->
+        <mat-checkbox [checked]=item.checked type="checkbox" color="warn" (change)="onChangeChecked(item.name)"> {{item.name}} </mat-checkbox>
+<!--      </mat-list-item>-->
+<!--        </mat-list>-->
     </div>
   </div>
   <div class="form-group">
@@ -17,7 +22,6 @@
     </div>
     <!-- <button (click)="addSupermarket()">Add supermarket</button> -->
   </div>
-    <button class="btn mt-3 btn-dark mt-3">Save -->
-    </button>
+    <button mat-raised-button color="primary"> Save </button>
 </form>
 </div>

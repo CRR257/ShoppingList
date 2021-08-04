@@ -14,8 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Firebase
-import { AngularFireModule } from "@angular/fire";
-import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 
@@ -23,7 +23,10 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { HeaderComponent } from './components/header/header.component';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { BetsComponent } from './components/bets/bets.component';
-import { ProfileComponent } from './components/profile/profile.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MaterialModule} from './shared/material-module';
+import {ProfileModule} from './components/profile/profile.module';
+import {UtilsMathService} from "./shared/services/utils/utils-math.service";
 
 @NgModule({
   declarations: [
@@ -34,8 +37,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     VerifyEmailComponent,
     HeaderComponent,
     ShoppingListComponent,
-    BetsComponent,
-    ProfileComponent
+    BetsComponent
   ],
   imports: [
     BrowserModule,
@@ -45,9 +47,12 @@ import { ProfileComponent } from './components/profile/profile.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    ProfileModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, UtilsMathService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

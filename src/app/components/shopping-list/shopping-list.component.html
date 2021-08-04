@@ -3,7 +3,7 @@
   <form [formGroup]="newItemForm">
     <div class="form-group">
       <span>Name item:</span>
-      <input class="form-control mt-2" formControlName="nameItem" />
+      <input class="form-control mt-2" formControlName="name" />
     </div>
     <div class="form-group">
       <span>Where to buy it:</span>
@@ -31,7 +31,7 @@
         <div class="card-body">
           <ul *ngFor="let item of shoppingListBonPreu">
             <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
-              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
+              <p class="item" (click)="checkItem(item)">{{item.name}}</p>
               <div class="container-actions">
                 <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
                 <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
@@ -58,7 +58,7 @@
         <div class="card-body">
           <ul *ngFor="let item of shoppingListBonArea">
             <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
-              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
+              <p class="item" (click)="checkItem(item)">{{item.name}}</p>
               <div class="container-actions">
                 <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
                 <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
@@ -85,7 +85,7 @@
         <div class="card-body">
           <ul *ngFor="let item of shoppingListOthers">
             <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
-              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
+              <p class="item" (click)="checkItem(item)">{{item.name}}</p>
               <div class="container-actions">
                 <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
                 <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i

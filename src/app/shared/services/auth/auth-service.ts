@@ -1,20 +1,21 @@
-import { Injectable, NgZone } from "@angular/core";
-import { User } from "../../models/user.interface";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { Router } from "@angular/router";
-import { Observable, Subject } from "rxjs";
-import { map } from "rxjs/operators";
+import { Injectable, NgZone } from '@angular/core';
+import { User } from '../../models/user.interface';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class AuthService {
   userData: User;
   users: User[] = [];
-  userLogged = [];
+  // userLogged = [];
+  userLogged = {};
 
-  private storageSub = new Subject<String>();
+  private storageSub = new Subject<string>();
 
   constructor(
     public afs: AngularFirestore,
@@ -36,43 +37,46 @@ export class AuthService {
   setUserToLocalStorage() {
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.userLogged = [];
+        this.userLogged = {};
         this.userData = user;
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.users.length; i++) {
           if (this.users[i].uid === user.uid) {
-            this.userLogged.push(this.users[i]);
+            this.userLogged = this.users[i];
+            // this.userLogged.push(this.users[i]);
           }
         }
         console.log(this.userLogged);
         const localStorage1 = new Promise((resolve, reject) => {
           if (this.userLogged) {
-            localStorage.setItem("userLogged", JSON.stringify(this.userLogged));
+            localStorage.setItem('userLogged', JSON.stringify(this.userLogged));
             resolve();
           } else {
-            reject("error");
+            reject('error');
           }
         });
 
         const yell = new Promise((resolve, reject) => {
           this.ngZone.run(() => {
-            this.router.navigate(["shopping-list"]);
-            console.log("gotosgoppinglist");
+            this.router.navigate(['shopping-list']);
+            console.log('gotosgoppinglist');
           });
           resolve();
         });
 
         async function userToLocal() {
           try {
-            let user = await localStorage1;
-            let ye = await yell;
+            await localStorage1;
+            await yell;
           } catch (error) {
+            return error;
             console.log(error);
           }
         }
 
         (async () => {
           await userToLocal();
-          this.storageSub.next("userSignedIn");
+          this.storageSub.next('userSignedIn');
         })();
       }
     });
@@ -80,15 +84,15 @@ export class AuthService {
 
   setUser(): Promise<any> {
     return new Promise((resolve, reject) => {
-      localStorage.setItem("userLogged", JSON.stringify(this.userLogged));
-      console.log("localStorage");
+      localStorage.setItem('userLogged', JSON.stringify(this.userLogged));
+      console.log('localStorage');
       resolve();
     });
   }
 
   getUsers(): Observable<User[]> {
     return this.afs
-      .collection("users")
+      .collection('users')
       .snapshotChanges()
       .pipe(
         map(actions =>
@@ -101,13 +105,11 @@ export class AuthService {
       );
   }
 
-  // Sign in with email/password
   login(user: User) {
     const { email, password } = user;
     return this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
-  // Sign up with email/password
   register(user: User) {
     const { email, password } = user;
     return this.afAuth.createUserWithEmailAndPassword(email, password);
@@ -117,7 +119,7 @@ export class AuthService {
     return this.afAuth.currentUser
       .then(u => u.sendEmailVerification())
       .then(() => {
-        this.router.navigate(["/verify-email-address"]);
+        this.router.navigate(['/verify-email-address']);
       });
   }
 
@@ -126,9 +128,18 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem('user'));
     return user !== null ? true : false;
     // return (user !== null && user.emailVerified !== false) ? true : false;
+  }
+
+  getUserLogged() {
+    // const userLogged = JSON.parse(localStorage.getItem('userLogged'));
+    return JSON.parse(localStorage.getItem('userLogged'));
+    // console.log('userLogged', userLogged);
+    // return userLogged;
+   // if (userLogged) {return userLogged.id; }
+    // if (userLogged) {return userLogged[0].id; }
   }
 
   AuthLogin(provider) {
@@ -136,7 +147,7 @@ export class AuthService {
       .signInWithPopup(provider)
       .then(result => {
         this.ngZone.run(() => {
-          this.router.navigate(["/dashboard"]);
+          this.router.navigate(['/dashboard']);
         });
         this.setUserData(result.user);
       })
@@ -146,7 +157,7 @@ export class AuthService {
   }
 
   setUserData(user: User, name?) {
-    //const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    // const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,
@@ -156,17 +167,17 @@ export class AuthService {
     };
 
     this.afs
-      .collection("users")
+      .collection('users')
       .doc(userData.uid)
       .set(userData, { merge: true });
   }
 
   logout() {
     return this.afAuth.signOut().then(() => {
-      localStorage.removeItem("user");
-      localStorage.removeItem("userLogged");
-      this.storageSub.next("userLogout");
-      this.router.navigate(["/sign-in"]);
+      localStorage.removeItem('user');
+      localStorage.removeItem('userLogged');
+      this.storageSub.next('userLogout');
+      this.router.navigate(['/sign-in']);
     });
   }
 }

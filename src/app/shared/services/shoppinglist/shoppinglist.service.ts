@@ -12,7 +12,7 @@ import { NewShoppingItem, ShoppingList } from '../../models/shoppingList.interfa
 })
 
 export class ShoppingListService {
-    userId: string = '';
+    userId = '';
     userCollection: AngularFirestoreCollection<NewShoppingItem>;
 
     shoppingList: any;
@@ -31,7 +31,7 @@ export class ShoppingListService {
           localStorage.setItem('user', JSON.stringify(this.userData));
           JSON.parse(localStorage.getItem('user'));
           this.userId = user.uid;
-          let collectionsName = 'shoppingList-' + `${this.userId}`
+          const collectionsName = 'shoppingList-' + `${this.userId}`
           this.userCollection = afs.collection<NewShoppingItem>(collectionsName);
         } else {
           localStorage.setItem('user', null);
@@ -63,6 +63,6 @@ export class ShoppingListService {
   }
 
   public newItem(item: NewShoppingItem) {
-    this.userCollection.add(item)
+    this.userCollection.add(item);
   }
 }
