@@ -1,16 +1,5 @@
-.spinner {
-  height: 100%;
-  width: 3rem;
-  height: 3rem;
-  color: black;
-  position: absolute;
-  top: 44%;
-  border-width: 5px;
-}
 
 .container {
-  min-height: 100vh;
-  height: unset;
   &-spinner {
     height: 100vh;
   }
@@ -50,14 +39,16 @@ nav {
 
 .btn-accordion {
   // background-image: linear-gradient(175deg, #6a6e85 0, #1f3259 50%, #000030 100%);
-  background: linear-gradient(11deg, rgba(0,10,19,1) 8%, rgba(0,107,199,0.9164040616246498) 98%);
+  //background: linear-gradient(11deg, rgba(0,10,19,1) 8%, rgba(0,107,199,0.9164040616246498) 98%);
+  background-color: #02028a;
   width: -webkit-fill-available;
   color: white;
   display: flex;
+  font-weight: 200;
 }
 
 button {
-  width: 30px;
+  // width: 30px;
   border: 1px solid #757575;
   border-radius: 4px;
   height: 42px;
@@ -80,9 +71,13 @@ button {
   padding-top: 12px;
   &-buyed {
     text-decoration: line-through;
-    background-color: #b1aeae;
+    background-color: #828282;
   }
   &-notbuyed {
     text-decoration: unset;
   }
+}
+
+.mat-icon {
+  vertical-align: bottom;
 }

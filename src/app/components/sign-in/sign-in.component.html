@@ -1,7 +1,7 @@
 <div class="container">
   <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)">
-    <h3 class="m-3 container__title">Sign In</h3>
-    <div class="mb-3 card p-3 m-3 container-sign">
+    <h3 class="m-3 container__title md-headline">Sign In</h3>
+    <div class="mb-3 m-3">
 
       <div class="formGroup">
         <span class="form-label">Email: </span>
@@ -18,17 +18,21 @@
       </div>
 
       <div class="formGroup mt-3">
-        <button type="submit" class="btn mt-3 btn-dark">Login</button>
+<!--        <button type="submit" class="btn mt-3 btn-dark">Login</button>-->
+        <button mat-raised-button color="primary" type="submit"> Login </button>
       </div>
     </div>
   </form>
 
-  <div class="m-3">
-    <button class="btn btn-secondary btn-sm" routerLink="/forgot-password"> Forgot Password?</button>
+  <div class="m-3 mt-5">
+<!--    <button class="btn btn-secondary btn-sm" routerLink="/forgot-password"> Forgot Password?</button>-->
+    <button mat-raised-button color="primary" routerLink="/forgot-password"> Forgot Password? </button>
+
   </div>
 
   <div class="m-3">
-    <span class="mr-2">Don't have an account?</span>
-    <button class="btn btn-secondary btn-sm small" routerLink="/register-user"> Sign Up</button>
+    <span class="mr-2">Or you don't have an account?</span>
+<!--    <button class="btn btn-secondary btn-sm small" routerLink="/register-user"> Sign Up</button>-->
+    <button mat-raised-button color="primary" routerLink="/register-user"> Sign Up </button>
   </div>
 </div>
