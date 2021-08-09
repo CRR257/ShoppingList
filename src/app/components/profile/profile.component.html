@@ -1,16 +1,40 @@
-<div class="container">
-  <h3 class="container__title mt-3 mb-4">Profile</h3>
+<div class="container" [ngClass]="{ 'container-overlay' : cardDialog}">
+  <div class="wrapper-spinner">
+    <mat-spinner *ngIf="spinner" [diameter]="60"></mat-spinner>
+  </div>
+
+  <h3>Profile</h3>
+
   <form [formGroup]="supermarketsListFormControl" (ngSubmit)="onSubmit()">
-  <div class="form-group">
+  <div>
     <span>Select the supermarket do you usually buy:</span>
-    <div class="form-check m-2" *ngFor="let item of supermarket" >
-        <mat-checkbox [checked]=item.checked
-                      type="checkbox"
-                      color="warn"
-                      (change)="onChangeChecked(item.name)"
-        > {{item.name}} </mat-checkbox>
+    <div class="mt-4 mb-3">
+      <div class="form-check m-2" *ngFor="let item of supermarket" >
+          <mat-checkbox [checked]=item.checked
+                        type="checkbox"
+                        [disabled]="cardDialog"
+                        (change)="onChangeChecked(item.name)"
+          > {{item.name}} </mat-checkbox>
+      </div>
     </div>
   </div>
-    <button mat-raised-button color="primary"> Save </button>
+    <button mat-raised-button color="primary" [disabled]="cardDialog"> Save </button>
 </form>
+</div>
+
+<div class="container-card">
+<mat-card class="card-element" *ngIf="cardDialog">
+  <mat-card-header>
+    <mat-card-subtitle>{{messageCardDialog}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions>
+    <button
+      mat-button
+      mat-flat-button
+      color="primary"
+      (click)="closeDialog()"
+    >Ok
+    </button>
+  </mat-card-actions>
+</mat-card>
 </div>

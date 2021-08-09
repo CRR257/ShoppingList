@@ -1,0 +1,45 @@
+@import '~src/assets/styles/app-colors';
+
+.btn-medium {
+  line-height: 30px;
+}
+
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: $light-grey;
+}
+
+.mat-card>.mat-card-actions:last-child {
+  margin-bottom: unset;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-expansion-panel-header-description {
+  background-color: #c7c7c7;
+  padding: 5px 10px;
+  border-radius: 3px;
+  align-content: center;
+  margin-bottom: 6px;
+}
+
+.mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-icon {
+  position: relative;
+  top: 3px;
+}
+
+.mat-accordion>.mat-expansion-panel-spacing:last-child, .mat-accordion>*:last-child:not(.mat-expansion-panel)
+.mat-expansion-panel-spacing {
+  margin-bottom: 10px !important;
+}
+
+.mat-accordion .mat-expansion-panel:last-of-type {
+  margin-bottom: 10px;
+}

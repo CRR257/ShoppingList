@@ -1,0 +1,16 @@
+@import '~src/assets/styles/app-common';
+
+
+.container-card {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 30rem;
+}
+
+.container-overlay {
+  background-color: rgb(51 51 51 / 91%) !important;
+  opacity: 0.1;
+}

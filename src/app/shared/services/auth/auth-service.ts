@@ -1,10 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../../models/user.interface';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { User } from '../../models/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,6 @@ import { map } from 'rxjs/operators';
 export class AuthService {
   userData: User;
   users: User[] = [];
-  // userLogged = [];
   userLogged = {};
 
   private storageSub = new Subject<string>();
@@ -43,10 +42,8 @@ export class AuthService {
         for (let i = 0; i < this.users.length; i++) {
           if (this.users[i].uid === user.uid) {
             this.userLogged = this.users[i];
-            // this.userLogged.push(this.users[i]);
           }
         }
-        console.log(this.userLogged);
         const localStorage1 = new Promise((resolve, reject) => {
           if (this.userLogged) {
             localStorage.setItem('userLogged', JSON.stringify(this.userLogged));
@@ -59,7 +56,6 @@ export class AuthService {
         const yell = new Promise((resolve, reject) => {
           this.ngZone.run(() => {
             this.router.navigate(['shopping-list']);
-            console.log('gotosgoppinglist');
           });
           resolve();
         });
@@ -70,7 +66,6 @@ export class AuthService {
             await yell;
           } catch (error) {
             return error;
-            console.log(error);
           }
         }
 
@@ -85,7 +80,6 @@ export class AuthService {
   setUser(): Promise<any> {
     return new Promise((resolve, reject) => {
       localStorage.setItem('userLogged', JSON.stringify(this.userLogged));
-      console.log('localStorage');
       resolve();
     });
   }
@@ -134,12 +128,7 @@ export class AuthService {
   }
 
   getUserLogged() {
-    // const userLogged = JSON.parse(localStorage.getItem('userLogged'));
     return JSON.parse(localStorage.getItem('userLogged'));
-    // console.log('userLogged', userLogged);
-    // return userLogged;
-   // if (userLogged) {return userLogged.id; }
-    // if (userLogged) {return userLogged[0].id; }
   }
 
   AuthLogin(provider) {
@@ -157,7 +146,6 @@ export class AuthService {
   }
 
   setUserData(user: User, name?) {
-    // const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: user.uid,
       email: user.email,

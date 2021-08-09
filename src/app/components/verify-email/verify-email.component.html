@@ -1,20 +1,38 @@
 <div class="container">
-  <h3 class="m-3 container__title">Thank You for Registering</h3>
 
-  <div class="mb-3 p-3 m-3 container-sign">
+  <div class="m-3">
 
-    <div class="formGroup mt-3 mb-3" *ngIf="authService.userData as user">
-      <span class="form-label">We have sent a confirmation email to <strong>{{user.email}}</strong>.</span><br>
-      <span class="form-label text">Please check your email and click on the link to verfiy your email address.</span>
+    <span> Thank You for Registering! </span>
+<!--    <div class="formGroup mt-3 mb-3" *ngIf="authService.userData as user">-->
+<!--      <span class="form-label">We have sent a confirmation email to <strong>{{user.email}}</strong>.</span><br>-->
+<!--      <span class="form-label text">Please check your email and click on the link to verify your email address.</span>-->
+<!--    </div>-->
+<!--    <div class="formGroup mt-3 mb-3">-->
+<!--      <button-->
+<!--              mat-raised-button-->
+<!--              class="btn-medium"-->
+<!--              (click)="authService.sendVerificationMail()"-->
+<!--      >-->
+<!--        <mat-icon aria-hidden="false" aria-label="refresh">refresh</mat-icon>-->
+<!--      Resend Verification Email-->
+<!--      </button>-->
+
+<!--    </div>-->
+    <div class="mt-5">
+    <span>
+      <button mat-raised-button
+              color="primary"
+              routerLink="/sign-in"
+      > Go to Log In </button>
+    </span>
+  </div>
+
+    <div class="mt-5">
+      <button mat-raised-button
+              class="btn-medium"
+              routerLink="/forgot-password"
+      > Forgot Password? </button>
     </div>
-    <div class="formGroup mt-3 mb-3">
-      <button type="button" class="btn mt-3 btn-dark" (click)="authService.sendVerificationMail()">
-        <i class="fas fa-redo-alt"></i>
-        Resend Verification Email
-      </button>
-    </div>
-    <div>
-      <button class="btn btn-secondary btn-sm" routerLink="/forgot-password">Forgot Password?</button>
-    </div>
+
   </div>
 </div>

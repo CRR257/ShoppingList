@@ -1,83 +1,69 @@
-
-.container {
-  &-spinner {
-    height: 100vh;
-  }
-  &-actions {
-    display: flex;
-    padding-top: 6px;
-  }
-  &-task {
-    text-decoration: none;
-    list-style-type: none;
-    display: flex;
-    background-color: #ffffff;
-    padding: 0 4px 0 10px;
-    border-radius: 4px;
-    margin-bottom: 2px;
-    justify-content: space-between;
-    overflow: auto;
-    @media (min-width: 768px) {
-      .container-task {
-        padding: 5px 10px;
-      }
-    }
-  }
-}
+//
+//.container {
+//  &-spinner {
+//    height: 100vh;
+//  }
+//  &-actions {
+//    display: flex;
+//    padding-top: 6px;
+//  }
+//  &-task {
+//    text-decoration: none;
+//    list-style-type: none;
+//    display: flex;
+//    background-color: #ffffff;
+//    padding: 0 4px 0 10px;
+//    border-radius: 4px;
+//    margin-bottom: 2px;
+//    justify-content: space-between;
+//    overflow: auto;
+//    @media (min-width: 768px) {
+//      .container-task {
+//        padding: 5px 10px;
+//      }
+//    }
+//  }
+//}
 
 nav {
   display: flex;
   justify-content: flex-end;
 }
 
-.card {
-  background-color: #c7c7c7;;
-  &-body {
-    padding: 2px;
-  }
-}
+//.card {
+//  background-color: #c7c7c7;;
+//  &-body {
+//    padding: 2px;
+//  }
+//}
 
-.btn-accordion {
-  // background-image: linear-gradient(175deg, #6a6e85 0, #1f3259 50%, #000030 100%);
-  //background: linear-gradient(11deg, rgba(0,10,19,1) 8%, rgba(0,107,199,0.9164040616246498) 98%);
-  background-color: #02028a;
-  width: -webkit-fill-available;
-  color: white;
-  display: flex;
-  font-weight: 200;
-}
-
-button {
-  // width: 30px;
-  border: 1px solid #757575;
-  border-radius: 4px;
-  height: 42px;
-}
+//.btn-accordion {
+//  background-color: #02028a;
+//  width: -webkit-fill-available;
+//  color: white;
+//  display: flex;
+//  font-weight: 200;
+//  letter-spacing: 1.2px;
+//}
 
 .btn {
   &-icon {
     background-color: #d4d4d4;
     height: 33px;
-    margin: 0 auto;
-  }
-  &-dark {
-    width: fit-content;
-    background: linear-gradient(11deg, rgba(1,8,29,1) 33%, rgba(0,109,195,0.9164040616246498) 97%);
+    border: 1px solid #757575;
+    border-radius: 4px;
   }
 }
 
 .item {
-  min-width: 100px;
-  padding-top: 12px;
-  &-buyed {
+  position: relative;
+  top: 6px;
+  text-decoration: unset;
+  letter-spacing: 1.1px;
+  color: #232323;
+  &-bought {
     text-decoration: line-through;
-    background-color: #828282;
-  }
-  &-notbuyed {
-    text-decoration: unset;
+    background: #797979;
   }
 }
 
-.mat-icon {
-  vertical-align: bottom;
-}
