@@ -38,7 +38,6 @@ export class AuthService {
       if (user) {
         this.userLogged = {};
         this.userData = user;
-        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.users.length; i++) {
           if (this.users[i].uid === user.uid) {
             this.userLogged = this.users[i];

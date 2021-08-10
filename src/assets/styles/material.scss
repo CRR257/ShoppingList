@@ -4,7 +4,6 @@
   line-height: 30px;
 }
 
-
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
   background-color: $light-grey;
@@ -35,11 +34,47 @@
   top: 3px;
 }
 
-.mat-accordion>.mat-expansion-panel-spacing:last-child, .mat-accordion>*:last-child:not(.mat-expansion-panel)
+.mat-accordion > .mat-expansion-panel-spacing:last-child, .mat-accordion > *:last-child:not(.mat-expansion-panel)
 .mat-expansion-panel-spacing {
   margin-bottom: 10px !important;
 }
 
 .mat-accordion .mat-expansion-panel:last-of-type {
   margin-bottom: 10px;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 1.25em;
+  width: 18rem;
+}
+
+.mat-error {
+  color: $primary-error;
+  font-size: 12px;
+}
+.mat-form-field .mat-select.mat-select-invalid .mat-select-arrow {
+  color: $primary-error;
+}
+
+.mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: $mat-white;
+}
+
+.mat-form-field.mat-form-field-invalid .mat-form-field-ripple,
+.mat-form-field.mat-form-field-invalid .mat-form-field-ripple.mat-accent {
+  background-color: $primary-error !important;
+}
+
+@media (max-width: 500px) {
+  .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+    margin-right: unset !important;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 2px 8px !important;
+  }
+
+  .mat-expansion-panel-header:not([aria-disabled=true]) {
+    height: 48px !important;
+  }
 }

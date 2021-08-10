@@ -18,12 +18,15 @@
       </div>
     </div>
   </div>
-    <button mat-raised-button color="primary" [disabled]="cardDialog"> Save </button>
+    <button mat-raised-button
+            color="primary"
+            [disabled]="cardDialog"
+    > Save </button>
 </form>
 </div>
 
 <div class="container-card">
-<mat-card class="card-element" *ngIf="cardDialog">
+<mat-card *ngIf="cardDialog">
   <mat-card-header>
     <mat-card-subtitle>{{messageCardDialog}}</mat-card-subtitle>
   </mat-card-header>

@@ -1,50 +1,4 @@
-//
-//.container {
-//  &-spinner {
-//    height: 100vh;
-//  }
-//  &-actions {
-//    display: flex;
-//    padding-top: 6px;
-//  }
-//  &-task {
-//    text-decoration: none;
-//    list-style-type: none;
-//    display: flex;
-//    background-color: #ffffff;
-//    padding: 0 4px 0 10px;
-//    border-radius: 4px;
-//    margin-bottom: 2px;
-//    justify-content: space-between;
-//    overflow: auto;
-//    @media (min-width: 768px) {
-//      .container-task {
-//        padding: 5px 10px;
-//      }
-//    }
-//  }
-//}
-
-nav {
-  display: flex;
-  justify-content: flex-end;
-}
-
-//.card {
-//  background-color: #c7c7c7;;
-//  &-body {
-//    padding: 2px;
-//  }
-//}
-
-//.btn-accordion {
-//  background-color: #02028a;
-//  width: -webkit-fill-available;
-//  color: white;
-//  display: flex;
-//  font-weight: 200;
-//  letter-spacing: 1.2px;
-//}
+@import '~src/assets/styles/app-common';
 
 .btn {
   &-icon {
@@ -58,12 +12,21 @@ nav {
 .item {
   position: relative;
   top: 6px;
-  text-decoration: unset;
   letter-spacing: 1.1px;
   color: #232323;
+  width: -webkit-fill-available;
   &-bought {
-    text-decoration: line-through;
     background: #797979;
   }
 }
 
+@media (min-width: 500px) {
+  .container-card {
+    top: 60%;
+  }
+}
+
+.item-container {
+  display: flex;
+  flex-grow: inherit;
+}

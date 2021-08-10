@@ -11,8 +11,3 @@ export const environment = {
     measurementId: 'G-972BQCHG45'
   }
 };
-
-// export const ourkeys = {
-//   uid1: 'UaCIlIADG9X9oMrbMwsysjsxNi82',
-//   uid2: 'U4MdNWFIDPYeapAcEWshAlqj6Cf1',
-// }

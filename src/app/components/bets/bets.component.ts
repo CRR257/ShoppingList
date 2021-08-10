@@ -11,10 +11,12 @@ import {AuthService} from '../../shared/services/auth/auth-service';
   styleUrls: ['./bets.component.scss']
 })
 export class BetsComponent implements OnInit {
-  userId = '';
+  userId: string;
   loading = false;
   betList: any;
   betId: string;
+  cardDialog = false;
+  messageCardDialog: string;
 
   betsForm = new FormGroup({
     text: new FormControl('')
@@ -38,22 +40,38 @@ export class BetsComponent implements OnInit {
       this.betList = listBets;
       if (this.betList.length > 0) {
         this.betList = listBets[0].text;
-        console.log(listBets)
         this.betId = listBets[0].idBet;
       }
     });
     this.loading = false;
-    console.log(this.betList);
   }
 
   modifyBet(form: Bet) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     const bet = {
       text: form.text
     };
     if (this.betId === undefined) {
-      this.betsService.newBet(bet);
+      this.betsService.newBet(bet).then(result => {
+        this.cardDialog = true;
+        this.messageCardDialog = result;
+      }).catch(error => {
+        this.cardDialog = true;
+        this.messageCardDialog = error;
+      });
     } else {
-      this.betsService.editBet(this.betId, bet);
+      this.betsService.editBet(this.betId, bet)
+        .then(result => {
+        this.cardDialog = true;
+        this.messageCardDialog = result;
+      }).catch(error => {
+        this.cardDialog = true;
+        this.messageCardDialog = error;
+      });
     }
+  }
+
+  closeDialog() {
+    this.cardDialog = false;
   }
 }

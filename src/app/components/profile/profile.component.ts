@@ -13,13 +13,13 @@ import { Supermarket } from '../../shared/models/supermarket.interface';
 })
 
 export class ProfileComponent implements OnInit {
-  userId = '';
   supermarketsListFormControl: FormGroup;
   supermarket: Supermarket[];
   supermarketListUserIsEmpty: boolean;
   supermarketsChecked = [];
   messageCardDialog: string;
   cardDialog = false;
+  userId: string;
   spinner = false;
 
   constructor( public profileService: ProfileService,
@@ -49,7 +49,6 @@ export class ProfileComponent implements OnInit {
     this.supermarketsListFormControl = new FormGroup({
       supermarkets: userHasSupermarketList ? this.getSupermarketDefaultList() : this.getSupermarketUserList()
     });
-    console.log(this.supermarketsListFormControl);
   }
 
   getSupermarketDefaultList(): FormGroup {

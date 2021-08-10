@@ -11,7 +11,7 @@ import {AuthService} from '../auth/auth-service';
   providedIn: 'root'
 })
 export class ProfileService {
-  userId = '';
+  userId: string;
   supermarkets: Supermarket[] = [];
   userSupermarkets: AngularFirestoreCollection<{}>;
   supermarketUserIsEmpty: boolean;
@@ -28,7 +28,7 @@ export class ProfileService {
     this.userSupermarkets = afs.collection<{}>(supermarketsUser);
   }
 
-  getSupermarkets(): Observable<Supermarket[]> {
+  public getSupermarkets(): Observable<Supermarket[]> {
     return this.afs
       .collection('supermarket')
       .snapshotChanges()
@@ -44,7 +44,7 @@ export class ProfileService {
       );
   }
 
-  getUserSuperMarkets(id: string): Observable<{}> {
+  public getUserSuperMarkets(id: string): Observable<{}> {
     return this.afs
       .collection(id)
       .snapshotChanges()
@@ -53,15 +53,13 @@ export class ProfileService {
           actions.map(a => {
             const data = a.payload.doc.data();
             this.idSupermarketUser = a.payload.doc.id;
-            // @ts-ignore
-            // return { idSupermarketUser, ...data };
             return data;
           })
         )
       );
   }
 
-  userHasSupermarketList() {
+  public userHasSupermarketList() {
     const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
     this.getUserSuperMarkets(userSupermarkets).subscribe(supermarkets => {
       console.log(supermarkets);
@@ -74,11 +72,11 @@ export class ProfileService {
     });
   }
 
-  createUserSupermarketList(supermarketsList) {
+  public createUserSupermarketList(supermarketsList): Promise<string> {
     return new Promise((resolve, reject) => {
       this.userSupermarkets.add(Object.assign({}, supermarketsList))
         .then(() => {
-          resolve('This supermarket list has been correctly updated.');
+          resolve('This supermarket list has been correctly created.');
         })
         .catch((err) => {
           reject('There has been an error. Try again ');
@@ -86,8 +84,7 @@ export class ProfileService {
     });
   }
 
-  modifyUserSupermarketList(supermarketsList): Promise<any> {
-    console.log(this.idSupermarketUser);
+  public modifyUserSupermarketList(supermarketsList): Promise<string> {
     return new Promise((resolve, reject) => {
       this.userSupermarkets.doc(this.idSupermarketUser).update(Object.assign({}, supermarketsList))
         .then(() => {
