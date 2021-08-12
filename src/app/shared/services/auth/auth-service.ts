@@ -1,9 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User } from '../../models/user.interface';
 
 @Injectable({
@@ -123,7 +123,6 @@ export class AuthService {
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return user !== null ? true : false;
-    // return (user !== null && user.emailVerified !== false) ? true : false;
   }
 
   getUserLogged() {

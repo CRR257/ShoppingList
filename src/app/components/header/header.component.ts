@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { User } from '../../shared/models/user.interface';
 
@@ -13,14 +13,8 @@ export class HeaderComponent implements OnInit {
   constructor( public authService: AuthService ) {}
 
   ngOnInit(): void {
-    // this.getUser();
     this.getUserLogged();
   }
-
-  // getUser() {
-  //   this.userLogged = JSON.parse(localStorage.getItem('userLogged'));
-  //   console.log(this.userLogged);
-  // }
 
   getUserLogged() {
     this.authService.watchStorage().subscribe((data: string) => {

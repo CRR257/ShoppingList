@@ -2,9 +2,9 @@
 
 .btn {
   &-icon {
-    background-color: #d4d4d4;
+    background-color: $iconButton-background;
     height: 33px;
-    border: 1px solid #757575;
+    border: 1px solid $grey-2;
     border-radius: 4px;
   }
 }
@@ -16,7 +16,7 @@
   color: #232323;
   width: -webkit-fill-available;
   &-bought {
-    background: #797979;
+    background: $light-grey-2;
   }
 }
 

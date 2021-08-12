@@ -1,3 +1,5 @@
+@import '~src/assets/styles/app-colors';
+
 .container {
   max-width: 55rem;
   min-height: 100vh;
@@ -48,6 +50,6 @@
 }
 
 .container-overlay {
-  background-color: rgb(51 51 51 / 91%) !important;
+  background-color: $main-overlay !important;
   opacity: 0.1;
 }
