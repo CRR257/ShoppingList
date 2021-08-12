@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {FormGroup, FormControl, AbstractControl} from '@angular/forms';
+import {Router} from '@angular/router';
 import { ProfileService } from '../../shared/services/profile/profile.service';
+import {AuthService} from '../../shared/services/auth/auth-service';
+import {UtilsMathService} from '../../shared/services/utils/utils-math.service';
 import { Supermarket } from '../../shared/models/supermarket.interface';
-import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -10,50 +13,106 @@ import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 })
 
 export class ProfileComponent implements OnInit {
+  supermarketsListFormControl: FormGroup;
   supermarket: Supermarket[];
-  form: FormGroup;
-    ordersData =  [];
+  supermarketListUserIsEmpty: boolean;
+  supermarketsChecked = [];
+  messageCardDialog: string;
+  cardDialog = false;
+  userId: string;
+  spinner = false;
 
-  get ordersFormArray() {
-    return this.form.controls.orders as FormArray;
-  }
-
-  constructor(public profileService: ProfileService,
-    private formBuilder: FormBuilder) {
-
-    // this.form = this.formBuilder.group({
-    // orders: new FormArray([])
-    // });
-  }
-
-  // https://blog.angular-university.io/angular-form-array/
-
-  supermarketForm = this.formBuilder.group({
-   supermarketName: new FormControl(''),
-  });
-    // supermarketsUser: new FormControl('')
+  constructor( public profileService: ProfileService,
+               public router: Router,
+               public authService: AuthService,
+               public utilsMathService: UtilsMathService ) {}
 
   ngOnInit(): void {
-    this.getSupermarketsList();
+    this.getUserLogged();
+    this.userHasDefinedASupermarketList();
   }
 
-  getSupermarketsList() {
-    this.profileService.getSupermarkets().subscribe(s => {
-      this.supermarket = s.sort((a,b) => (a.name < b.name) ? -1 : ((a.name > b.name) ? 1 : 0 ));
-    })
-    // this.supermarkets = this.profileService.getAllSupermarkets();
+  getUserLogged() {
+    this.userId = this.authService.getUserLogged().id;
   }
 
- private addCheckBoxes() {
-  this.ordersData.forEach(() => this.ordersFormArray.push(new FormControl(false)));
- }
-  submit() {
-  console.log('submit')
-  console.log(this.supermarketForm)
-     const selectedOrderIds = this.form.value.orders
-       .map((checked, i) => checked ? this.ordersData[i].id : null)
-       .filter(v => v !== null);
-     console.log(selectedOrderIds);
-   }
+  userHasDefinedASupermarketList() {
+    const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
+    this.profileService.getUserSuperMarkets(userSupermarkets).subscribe(supermarkets => {
+      Object.keys(supermarkets).length === 0 ?  this.supermarketListUserIsEmpty = true :  this.supermarketListUserIsEmpty = false;
+      this.initFormControls(this.supermarketListUserIsEmpty);
+    });
+  }
 
+
+  initFormControls(userHasSupermarketList: boolean) {
+    this.supermarketsListFormControl = new FormGroup({
+      supermarkets: userHasSupermarketList ? this.getSupermarketDefaultList() : this.getSupermarketUserList()
+    });
+  }
+
+  getSupermarketDefaultList(): FormGroup {
+    const controls: { [p: string]: AbstractControl } = {};
+    this.profileService.getSupermarkets().subscribe(supermarket => {
+      this.supermarket = this.utilsMathService.sortItemsByName(supermarket);
+      this.supermarket.forEach(s => {
+        controls[s.name] = new FormControl({checked: s.checked});
+      });
+    });
+    return new FormGroup(controls);
+  }
+
+  getSupermarketUserList(): FormGroup {
+    const controls: { [p: string]: AbstractControl } = {};
+    const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
+    this.profileService.getUserSuperMarkets(userSupermarkets).subscribe(supermarket => {
+      if (Object.keys(supermarket).length > 0) {
+        this.supermarket = this.utilsMathService.sortItemsByName(supermarket);
+        this.supermarket = Object.values(this.supermarket[0]);
+      }
+      for (const item in Object(this.supermarket)) {
+        if (Object(this.supermarket[item])) {
+        controls[Object(this.supermarket[item]).name] = new FormControl({checked: Object(this.supermarket[item]).checked});
+        }
+      }
+    });
+    return new FormGroup(controls);
+  }
+
+  onChangeChecked(supermarketName) {
+    const currentCheckedValue = this.supermarketsListFormControl.controls.supermarkets.get(supermarketName).value.checked;
+    this.supermarketsListFormControl.controls.supermarkets.get(supermarketName).patchValue({ checked : !currentCheckedValue});
+  }
+
+  onSubmit() {
+    this.spinner = true;
+    this.getSupermarketsChecked();
+    if (this.supermarketListUserIsEmpty) {
+      this.profileService.createUserSupermarketList(this.supermarketsChecked);
+    }
+    this.profileService.modifyUserSupermarketList(this.supermarketsChecked).then(result => {
+      this.spinner = false;
+      this.cardDialog = true;
+      this.messageCardDialog = result;
+    }).catch(error => {
+      this.spinner = false;
+      this.cardDialog = true;
+      this.messageCardDialog = error;
+    });
+  }
+
+  getSupermarketsChecked() {
+    this.supermarketsChecked = [];
+    for (let item = 0; item < this.supermarket.length; item ++) {
+      if (this.supermarketsListFormControl.controls.supermarkets.get(this.supermarket[item].name).value.checked) {
+        this.supermarketsChecked.push({name: this.supermarket[item].name, checked: true});
+      } else {
+        this.supermarketsChecked.push({name: this.supermarket[item].name, checked: false});
+      }
+    }
+  }
+
+  closeDialog() {
+    this.cardDialog = false;
+  }
 }

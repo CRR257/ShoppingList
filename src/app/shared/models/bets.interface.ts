@@ -3,6 +3,6 @@ export interface Bet {
 }
 
 export interface BetsList {
-  id: string;
+  idBet: string;
   text: string;
 }

@@ -1,21 +1,21 @@
-import { Component, OnInit, NgZone } from "@angular/core";
-import { AuthService } from "src/app/shared/services/auth/auth-service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { User } from "src/app/shared/models/user.interface";
-import { Router } from "@angular/router";
+import { Component, OnInit, NgZone } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/auth/auth-service';
+import { User } from 'src/app/shared/models/user.interface';
 
 @Component({
-  selector: "app-sign-in",
-  templateUrl: "./sign-in.component.html",
-  styleUrls: ["./sign-in.component.scss"]
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
-  emailIsVerified: boolean = false;
-  error: string = "";
+  emailIsVerified = false;
+  error = '';
 
   loginForm = new FormGroup({
-    email: new FormControl("", Validators.required),
-    password: new FormControl("", Validators.required)
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required)
   });
 
   constructor(
@@ -30,7 +30,7 @@ export class SignInComponent implements OnInit {
   }
 
   onLogin(form: User) {
-    console.log("Form", form);
+    console.log('Form', form);
     this.authService
       .login(form)
       .then(result => {

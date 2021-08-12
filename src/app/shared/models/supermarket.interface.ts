@@ -1,4 +1,5 @@
 export interface Supermarket {
-  id: string;
+  id: number;
   name: string;
+  checked: boolean;
 }

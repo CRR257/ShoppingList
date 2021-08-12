@@ -1,60 +1,8 @@
-ul {
-    padding: unset;
-    margin: unset;
-}
+// App Main Structure
+@import './assets/styles/app-main';
 
-body {
-    font: 14px "Century Gothic", Futura, sans-serif;
-    background: linear-gradient(11deg, rgba(1,8,29,1) 17%, rgba(189,40,65,1) 75%);
-    letter-spacing: 1.2px;
-    margin: unset;
-    font-weight: 600;
-}
+// App colors
+@import './assets/styles/app-colors';
 
-.button {
-    width: -webkit-fill-available;
-    max-width: 300px;
-}
-
-span {
-  color: #f3f2f2;
-  font-weight: 300;
-}
-
-.container {
-  height: 100vh;
-  max-width: 55rem;
-  @media (max-width: 500px) {
-    padding: 2rem 1.5rem;
-  }
-  @media (min-width: 500px) {
-    padding: 3rem;
-  }
-
-  &-sign {
-    background: linear-gradient(11deg, rgba(0,10,19,1) 8%, rgba(0,107,199,0.9164040616246498) 98%);
-    border: 1px solid #444343;
-  }
-  &__title {
-    text-decoration: underline;
-    display: flex;
-    justify-content: center;
-  }
-}
-
-.form {
-  max-width: 50rem;
-}
-
-.form-label {
-  font-size: 16px;
-}
-
-.error {
-  color: #960c0c;
-  font-weight: 600;
-}
-
-.btn-secondary {
-  background: linear-gradient(11deg, rgba(60,65,69,1) 41%, rgba(123,150,172,0.9164040616246498) 99%);
-}
+// Material styles
+@import './assets/styles/material';

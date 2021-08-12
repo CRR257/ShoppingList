@@ -1,88 +1,32 @@
-.spinner {
-  height: 100%;
-  width: 3rem;
-  height: 3rem;
-  color: black;
-  position: absolute;
-  top: 44%;
-  border-width: 5px;
-}
-
-.container {
-  min-height: 100vh;
-  height: unset;
-  &-spinner {
-    height: 100vh;
-  }
-  &-actions {
-    display: flex;
-    padding-top: 6px;
-  }
-  &-task {
-    text-decoration: none;
-    list-style-type: none;
-    display: flex;
-    background-color: #ffffff;
-    padding: 0 4px 0 10px;
-    border-radius: 4px;
-    margin-bottom: 2px;
-    justify-content: space-between;
-    overflow: auto;
-    @media (min-width: 768px) {
-      .container-task {
-        padding: 5px 10px;
-      }
-    }
-  }
-}
-
-nav {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.card {
-  background-color: #c7c7c7;;
-  &-body {
-    padding: 2px;
-  }
-}
-
-.btn-accordion {
-  // background-image: linear-gradient(175deg, #6a6e85 0, #1f3259 50%, #000030 100%);
-  background: linear-gradient(11deg, rgba(0,10,19,1) 8%, rgba(0,107,199,0.9164040616246498) 98%);
-  width: -webkit-fill-available;
-  color: white;
-  display: flex;
-}
-
-button {
-  width: 30px;
-  border: 1px solid #757575;
-  border-radius: 4px;
-  height: 42px;
-}
+@import '~src/assets/styles/app-common';
 
 .btn {
   &-icon {
-    background-color: #d4d4d4;
+    background-color: $iconButton-background;
     height: 33px;
-    margin: 0 auto;
-  }
-  &-dark {
-    width: fit-content;
-    background: linear-gradient(11deg, rgba(1,8,29,1) 33%, rgba(0,109,195,0.9164040616246498) 97%);
+    border: 1px solid $grey-2;
+    border-radius: 4px;
   }
 }
 
 .item {
-  min-width: 100px;
-  padding-top: 12px;
-  &-buyed {
-    text-decoration: line-through;
-    background-color: #b1aeae;
+  position: relative;
+  top: 6px;
+  letter-spacing: 1.1px;
+  color: #232323;
+  width: -webkit-fill-available;
+  &-bought {
+    background: $light-grey-2;
   }
-  &-notbuyed {
-    text-decoration: unset;
+}
+
+@media (min-width: 500px) {
+  .container-card {
+    top: 60%;
   }
+}
+
+.item-container {
+  display: flex;
+  flex-grow: inherit;
 }

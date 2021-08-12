@@ -10,15 +10,14 @@ import { User } from 'src/app/shared/models/user.interface';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
-  error: string = '';
-  feedback: string = '';
+  error = '';
+  feedback = '';
 
   recoverForm = new FormGroup ({
     email: new FormControl('', Validators.required)
   });
 
-  constructor(public authService: AuthService, public router: Router,
-    public ngZone: NgZone) { }
+  constructor(public authService: AuthService, public router: Router) { }
 
   ngOnInit(): void {
   }

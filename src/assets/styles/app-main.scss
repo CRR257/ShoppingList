@@ -1,0 +1,22 @@
+@import '~src/assets/styles/app-colors';
+
+html, body { height: fit-content; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  background-color: $main-background;
+  letter-spacing: 1.1px !important;
+  margin: unset;
+  font-weight: 600;
+}
+
+ul {
+  padding: unset;
+  margin: unset;
+}
+
+span {
+  color: $light-grey;
+  font-weight: 300;
+}

@@ -1,0 +1,55 @@
+@import '~src/assets/styles/app-colors';
+
+.container {
+  max-width: 55rem;
+  min-height: 100vh;
+  @media (max-width: 500px) {
+    padding: 2rem 1rem;
+  }
+  @media (min-width: 500px) {
+    padding: 3rem;
+  }
+  & h3 {
+    text-decoration: underline;
+    display: flex;
+    justify-content: center;
+    letter-spacing: 1.1px !important;
+  }
+}
+
+.form {
+  max-width: 50rem;
+}
+
+.form-label {
+  font-size: 16px;
+}
+
+.error {
+  border: 1px solid white;
+  padding: 10px;
+  display: flex;
+}
+
+.wrapper-spinner {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.container-card {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 30rem;
+  display: flex;
+  justify-content: center;
+}
+
+.container-overlay {
+  background-color: $main-overlay !important;
+  opacity: 0.1;
+}

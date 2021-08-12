@@ -1,106 +1,58 @@
 <div class="formGroup" class="container">
-  <h3 class="mt-3 mb-4" class="container__title pb-4">Shopping List</h3>
+
+  <div class="wrapper-spinner">
+    <mat-spinner *ngIf="loading" [diameter]="60"></mat-spinner>
+  </div>
+
+  <h3>Shopping List</h3>
   <form [formGroup]="newItemForm">
+
+    <mat-form-field class="d-flex mb-1">
+      <input matInput placeholder="Name item" formControlName="name">
+      <mat-error>Name couldn't be empty</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Where to buy it:</mat-label>
+      <mat-select [(value)]="supermarketLastSelected" formControlName="placeToBuyIt">
+        <mat-option *ngFor="let supermarket of userSupermarket" value="{{supermarket.name}}">
+          {{supermarket.name}}
+        </mat-option>
+      </mat-select>
+        <mat-error>Select a supermarket</mat-error>
+    </mat-form-field>
     <div class="form-group">
-      <span>Name item:</span>
-      <input class="form-control mt-2" formControlName="nameItem" />
-    </div>
-    <div class="form-group">
-      <span>Where to buy it:</span>
-      <select class="form-control mt-2" formControlName="placeToBuyIt">
-        <option value="bonPreu">BonPreu</option>
-        <option value="bonArea">BonArea</option>
-        <option value="altres">Altres</option>
-      </select>
-      <button type="submit" class="btn mt-3 btn-dark mt-3" (click)="createItem(newItemForm.value)">Save
-      </button>
+      <div class="pt-4">
+        <button mat-raised-button
+                color="primary"
+                type="submit"
+                (click)="createItem(newItemForm.value)"
+        > Save </button>
+      </div>
     </div>
   </form>
 
-  <div id="accordion" class="mt-2 mb-2">
-    <div class="card">
-      <div id="headingOne">
-        <h5 class="mb-0">
-          <button class="btn btn-accordion" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-            aria-controls="collapseOne">
-            Bonpreu
-          </button>
-        </h5>
-      </div>
-      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-          <ul *ngFor="let item of shoppingListBonPreu">
-            <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
-              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
-              <div class="container-actions">
-                <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
-                <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
-                    class="fas fa-trash-alt"></i></button>
-              </div>
-            </li>
-          </ul>
+  <mat-accordion [multi]="true" *ngFor="let supermarketList of groupedSupermarket">
+    <mat-expansion-panel [expanded]="accordionExpanded" (opened)="setAccordion(true)" hideToggle="true">
+      <mat-expansion-panel-header> {{supermarketList[0]}}
+      </mat-expansion-panel-header>
+      <mat-panel-description *ngFor="let item of supermarketList[1]"
+                             [ngClass]="{'item-bought' : item.isBought}"
+                             (click)="$event.stopPropagation()"
+      >
+        <div class="item-container">
+        <p (click)="checkItem(item)" class="item">{{item.name}}</p>
+        <button (click)="deleteItem(item.idShoppingList)" class="btn-icon">
+          <mat-icon aria-hidden="false" aria-label="delete" class="btn-icon__icon">delete</mat-icon>
+        </button>
         </div>
-      </div>
-    </div>
-  </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </mat-accordion>
 
-  <div id="accordion" class="mt-2 mb-2">
-    <div class="card">
-      <div id="headingOne">
-        <h5 class="mb-0">
-          <button class="btn btn-accordion" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-            aria-controls="collapseTwo">
-            BonArea
-          </button>
-        </h5>
-      </div>
-      <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-          <ul *ngFor="let item of shoppingListBonArea">
-            <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
-              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
-              <div class="container-actions">
-                <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
-                <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
-                    class="fas fa-trash-alt"></i></button>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="accordion" class="mt-2 mb-2">
-    <div class="card">
-      <div id="headingOne">
-        <h5 class="mb-0">
-          <button class="btn btn-accordion" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-            aria-controls="collapseThree">
-            Altres
-          </button>
-        </h5>
-      </div>
-      <div id="collapseThree" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-          <ul *ngFor="let item of shoppingListOthers">
-            <li class="container-task" [ngClass]="item.isBuyed ? 'item-buyed' : 'item-notbuyed'">
-              <p class="item" (click)="checkItem(item)">{{item.nameItem}}</p>
-              <div class="container-actions">
-                <!-- <button type="submit" (click)="checkItem(item)" class="btn-icon"><i class="fas fa-check"></i></button> -->
-                <button type="submit" (click)="deleteItem(item.id)" class="btn-icon"><i
-                    class="fas fa-trash-alt"></i></button>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<div class="d-flex justify-content-center container-spinner" *ngIf="loading">
-  <div class="spinner-border spinner" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
+<div class="container-card mt">
+  <mat-card *ngIf="groupedSupermarket && groupedSupermarket.length == 0">
+    <mat-card-subtitle>There's no supermarket list yet. Add some items!</mat-card-subtitle>
+  </mat-card>
 </div>
