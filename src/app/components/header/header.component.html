@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#" *ngIf="!userLogged">OurApp</a>
+  <a class="navbar-brand" href="#" *ngIf="!userLogged">ShoppingList App</a>
   <p *ngIf="userLogged" class="navbar-brand">Welcome {{userLogged.displayName}}</p>
   <button *ngIf="userLogged" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,13 +9,13 @@
     <div>
       <ul class="navbar-nav" *ngIf="userLogged" routerLinkActive="active">
         <li class="nav-item">
-          <a class="nav-link" routerLink="shopping-list">Shopping list</a>
+          <a class="nav-link" routerLink="/shopping-list">Shopping list</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="document">Document</a>
+          <a class="nav-link" routerLink="/document">Document</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="profile">Profile</a>
+          <a class="nav-link" routerLink="/profile">Profile</a>
         </li>
       </ul>
     </div>
