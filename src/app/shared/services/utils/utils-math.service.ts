@@ -5,6 +5,10 @@ export class UtilsMathService {
   constructor() {
   }
 
+  sort(item) {
+    return item.sort((a, b) => (a < b) ? -1 : ((a > b) ? 1 : 0));
+  }
+
   sortItemsByName(item) {
     return item.sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 :
       ((a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : 0));

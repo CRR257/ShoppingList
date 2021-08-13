@@ -5,11 +5,12 @@
   </div>
 
   <h3>Shopping List</h3>
-  <form [formGroup]="newItemForm">
+  <form [formGroup]="newItemForm" (submit)="createItem(newItemForm.value)">
 
     <mat-form-field class="d-flex mb-1">
       <input matInput placeholder="Name item" formControlName="name">
       <mat-error>Name couldn't be empty</mat-error>
+
     </mat-form-field>
     <mat-form-field>
       <mat-label>Where to buy it:</mat-label>
@@ -24,8 +25,6 @@
       <div class="pt-4">
         <button mat-raised-button
                 color="primary"
-                type="submit"
-                (click)="createItem(newItemForm.value)"
         > Save </button>
       </div>
     </div>
