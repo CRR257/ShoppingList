@@ -1,0 +1,48 @@
+<div class="container" [ngClass]="{ 'container-overlay' : cardDialog}">
+
+  <div class="wrapper-spinner">
+    <mat-spinner *ngIf="loading" [diameter]="60"></mat-spinner>
+  </div>
+
+  <h3>Document</h3>
+  <form [formGroup]="documentForm">
+    <div class="mb-3">
+      <editor
+        [apiKey]=apiKey
+        formControlName="text"
+        [(ngModel)]='documentText'
+        [init]="{
+        icons: 'material',
+        skin: 'borderless',
+        plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media ' +
+         'mediaembed pageembed permanentpen powerpaste table advtable',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter ' +
+         'pageembed permanentpen table',
+        min_height: 500
+        }"
+      ></editor>
+    </div>
+    <button mat-raised-button
+            color="primary"
+            [disabled]="cardDialog"
+            (click)="modifyDocument(documentForm.value)"
+    > Save </button>
+  </form>
+</div>
+
+<div class="container-card">
+  <mat-card *ngIf="cardDialog">
+    <mat-card-header>
+      <mat-card-subtitle>{{messageCardDialog}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <button
+        mat-button
+        mat-flat-button
+        color="primary"
+        (click)="closeDialog()"
+      >Ok
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -4,14 +4,14 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Bet, BetsList } from '../../models/bets.interface';
+import { Document, DocumentList } from '../../models/document.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BetsService {
+export class DocumentService {
   userId: string;
-  userBet: AngularFirestoreCollection<Bet>;
+  userDocument: AngularFirestoreCollection<Document>;
 
   constructor(
     public afs: AngularFirestore,
@@ -21,30 +21,30 @@ export class BetsService {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
-        const bets = 'betsList-' + `${this.userId}`;
-        this.userBet = afs.collection<BetsList>(bets);
+        const documents = 'documentList-' + `${this.userId}`;
+        this.userDocument = afs.collection<DocumentList>(documents);
       }
     });
   }
 
-  public getUserBets(id: string): Observable<BetsList[]> {
+  public getUserDocuments(id: string): Observable<DocumentList[]> {
     return this.afs
       .collection(id)
       .snapshotChanges()
       .pipe(
         map(actions =>
           actions.map(a => {
-            const data = a.payload.doc.data() as BetsList;
-            const idBet = a.payload.doc.id;
-            return { idBet, ...data };
+            const data = a.payload.doc.data() as DocumentList;
+            const idDocument = a.payload.doc.id;
+            return { idDocument, ...data };
           })
         )
       );
   }
 
-  public editBet(id: string, bet: Bet): Promise<string> {
+  public editDocument(id: string, document: Document): Promise<string> {
     return new Promise((resolve, reject) => {
-      this.userBet.doc(id).update(bet).then(() => {
+      this.userDocument.doc(id).update(document).then(() => {
         resolve('This document has been correctly updated.');
       })
         .catch(() => {
@@ -53,9 +53,9 @@ export class BetsService {
     });
   }
 
-  public newBet(bet: Bet): Promise<string> {
+  public newDocument(document: Document): Promise<string> {
     return new Promise((resolve, reject) => {
-      this.userBet.add(bet).then(() => {
+      this.userDocument.add(document).then(() => {
         resolve('This document has been correctly created.');
       })
         .catch(() => {
