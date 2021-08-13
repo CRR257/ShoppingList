@@ -23,7 +23,6 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onSign(form: User) {
-    console.log('Form', form);
     this.authService.forgotPassword(form)
     .then((result) => {
       this.feedback = 'Email sent to rest your password, check your inbox :) ';

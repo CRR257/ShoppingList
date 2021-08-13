@@ -22,7 +22,6 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {}
 
   register(form: User) {
-    console.log(form);
     this.authService
       .register(form)
       .then(result => {

@@ -30,7 +30,6 @@ export class SignInComponent implements OnInit {
   }
 
   onLogin(form: User) {
-    console.log('Form', form);
     this.authService
       .login(form)
       .then(result => {

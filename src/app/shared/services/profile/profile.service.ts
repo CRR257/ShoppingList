@@ -36,7 +36,6 @@ export class ProfileService {
         map(actions =>
           actions.map(a => {
             const data = a.payload.doc.data() as Supermarket;
-            console.log(data);
             const id = a.payload.doc.id;
             return {id, ...data};
           })
@@ -62,7 +61,6 @@ export class ProfileService {
   public userHasSupermarketList() {
     const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
     this.getUserSuperMarkets(userSupermarkets).subscribe(supermarkets => {
-      console.log(supermarkets);
       if (supermarkets) {
         this.supermarketUserIsEmpty = Object.keys(supermarkets).length === 0;
       } else {
