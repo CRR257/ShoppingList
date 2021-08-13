@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { Router } from '@angular/router';
 import { ShoppingListService } from 'src/app/shared/services/shoppinglist/shoppinglist.service';
@@ -74,18 +74,17 @@ export class ShoppingListComponent implements OnInit {
         return r;
       }, Object.create(null));
 
-      this.groupedSupermarket  = Object.entries(result);
+      const supermarkets = Object.entries(result);
+      this.groupedSupermarket = this.utilsMathService.sort(supermarkets);
 
-      for (let i = 0; i < this.groupedSupermarket.length; i++) {
-          this.utilsMathService.sortItemsByNameBoughtProperty(this.groupedSupermarket[i]);
+      for (let i = 0; i < this.groupedSupermarket.length ; i++) {
+        this.utilsMathService.sortItemsByNameBoughtProperty(this.groupedSupermarket[i]);
       }
-
       this.loading = false;
     });
   }
 
   deleteItem(item) {
-    this.accordionExpanded = true;
     this.shoppingListService.deleteItem(item);
     this.getShoppingList();
   }
@@ -102,18 +101,17 @@ export class ShoppingListComponent implements OnInit {
   }
 
   createItem(form: NewShoppingItem) {
-    if (form.name === '') {
+    if (form.name.trim() === '' || form.placeToBuyIt === '') {
       return;
     }
     const item = {
-      name: form.name,
+      name: form.name.trim(),
       placeToBuyIt: form.placeToBuyIt,
       isBought: false
     };
-    this.supermarketLastSelected = form.placeToBuyIt;
     this.shoppingListService.newItem(item);
     this.getShoppingList();
-    this.newItemForm.controls.name.reset();
+    this.newItemForm.reset({ name: ' ', placeToBuyIt: form.placeToBuyIt});
   }
 
   closeDialog() {

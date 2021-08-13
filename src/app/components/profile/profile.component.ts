@@ -85,6 +85,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.spinner = true;
     this.getSupermarketsChecked();
     if (this.supermarketListUserIsEmpty) {
