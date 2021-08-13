@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { Router } from '@angular/router';
 import { ShoppingListService } from 'src/app/shared/services/shoppinglist/shoppinglist.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { NewShoppingItem } from '../../shared/models/shoppingList.interface';
 import {UtilsMathService} from '../../shared/services/utils/utils-math.service';
 import {ProfileService} from '../../shared/services/profile/profile.service';
@@ -17,7 +17,7 @@ export class ShoppingListComponent implements OnInit {
   userId =  '';
   loading = false;
   userSupermarket: Supermarket[];
-  groupedSupermarket: any;
+  groupedSupermarket: [];
   accordionExpanded = true;
   cardDialog = false;
   supermarketLastSelected = '';
@@ -102,6 +102,7 @@ export class ShoppingListComponent implements OnInit {
 
   createItem(form: NewShoppingItem) {
     if (form.name.trim() === '' || form.placeToBuyIt === '') {
+      this.newItemForm.get('name').setErrors({nameError: true});
       return;
     }
     const item = {
@@ -111,7 +112,8 @@ export class ShoppingListComponent implements OnInit {
     };
     this.shoppingListService.newItem(item);
     this.getShoppingList();
-    this.newItemForm.reset({ name: ' ', placeToBuyIt: form.placeToBuyIt});
+    this.newItemForm.reset({ name: '', placeToBuyIt: form.placeToBuyIt });
+    this.newItemForm.get('name').setErrors(null);
   }
 
   closeDialog() {
