@@ -1,8 +1,7 @@
-# OurShoppingList 🍇__🥑__🍇
+# ShoppingList 🍎
 
-App to manage a shoppinglist and a document.
-User can select of a list of supermarkets, the supermarkets where usually their food.
-
+App to manage a shopping list, and a document.<br>
+User can select of a list of supermarkets, the supermarkets where usually buy their food.
 
 [Live_demo](https://ourlovelyshoppinglist.web.app)
 
