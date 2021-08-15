@@ -1,58 +1,69 @@
 <div class="container">
 
-  <div class="wrapper-spinner">
-    <mat-spinner *ngIf="loading" [diameter]="60"></mat-spinner>
-  </div>
-
-  <h3>Shopping List</h3>
-  <form [formGroup]="newItemForm" (submit)="createItem(newItemForm.value)">
-
-    <mat-form-field class="d-flex mb-1">
-      <input matInput placeholder="Name item" formControlName="name">
-      <mat-error>Name couldn't be empty</mat-error>
-
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Where to buy it:</mat-label>
-      <mat-select [(value)]="supermarketLastSelected" formControlName="placeToBuyIt">
-        <mat-option *ngFor="let supermarket of userSupermarket" value="{{supermarket.name}}">
-          {{supermarket.name}}
-        </mat-option>
-      </mat-select>
-        <mat-error>Select a supermarket</mat-error>
-    </mat-form-field>
-    <div class="form-group">
-      <div class="pt-4">
-        <button mat-raised-button
-                color="primary"
-        > Save </button>
-      </div>
+    <div class="wrapper-spinner">
+        <mat-spinner *ngIf="loading" [diameter]="60"></mat-spinner>
     </div>
-  </form>
 
-  <mat-accordion [multi]="true" *ngFor="let supermarketList of groupedSupermarket">
-    <mat-expansion-panel [expanded]="accordionExpanded" (opened)="setAccordion(true)" hideToggle="true">
-      <mat-expansion-panel-header> {{supermarketList[0]}}
-      </mat-expansion-panel-header>
-      <mat-panel-description *ngFor="let item of supermarketList[1]"
-                             [ngClass]="{'item-bought' : item.isBought}"
-                             (click)="$event.stopPropagation()"
-      >
-        <div class="item-container">
-        <p (click)="checkItem(item)" class="item">{{item.name}}</p>
-        <button (click)="deleteItem(item.idShoppingList)" class="btn-icon">
-          <mat-icon aria-hidden="false" aria-label="delete" class="btn-icon__icon">delete</mat-icon>
-        </button>
+    <h3>Shopping List</h3>
+    <form [formGroup]="newItemForm" (submit)="createItem(newItemForm.value)">
+
+        <mat-form-field class="d-flex mb-1">
+            <input matInput placeholder="Name item" formControlName="name">
+            <mat-error>Name couldn't be empty</mat-error>
+
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Where to buy it:</mat-label>
+            <mat-select [(value)]="supermarketLastSelected" formControlName="placeToBuyIt">
+                <mat-option *ngFor="let supermarket of userSupermarket" value="{{supermarket.name}}">
+                    {{supermarket.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error>Select a supermarket</mat-error>
+        </mat-form-field>
+        <div class="form-group">
+            <div class="pt-4">
+                <button mat-raised-button
+                        color="primary"
+                > Save </button>
+            </div>
         </div>
-      </mat-panel-description>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </form>
+
+    <mat-accordion [multi]="true" *ngFor="let supermarketList of groupedSupermarket">
+        <mat-expansion-panel [expanded]="accordionExpanded" (opened)="setAccordion(true)" hideToggle="true">
+            <mat-expansion-panel-header> {{supermarketList[0]}}
+            </mat-expansion-panel-header>
+            <mat-panel-description *ngFor="let item of supermarketList[1]"
+                                   [ngClass]="{'item-bought' : item.isBought}"
+                                   (click)="$event.stopPropagation()"
+            >
+                <div class="item-container">
+                    <p (click)="checkItem(item)" class="item">{{item.name}}</p>
+
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="deleteItem(item.idShoppingList)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                        <button mat-menu-item  (click)="editItem(item)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </mat-panel-description>
+        </mat-expansion-panel>
+    </mat-accordion>
 
 </div>
 
 <div class="container-card mt">
-  <mat-card *ngIf="groupedSupermarket && groupedSupermarket.length == 0">
-    <mat-card-subtitle>There's no supermarket list yet. Add some items!</mat-card-subtitle>
-    <mat-card-subtitle>You can modifiy the supermarket's list in <a routerLink="/profile">Profile</a></mat-card-subtitle>
-  </mat-card>
+    <mat-card *ngIf="groupedSupermarket && groupedSupermarket.length == 0">
+        <mat-card-subtitle>There's no supermarket list yet. Add some items!</mat-card-subtitle>
+        <mat-card-subtitle>You can modify the supermarket's list in <a routerLink="/profile">Profile</a></mat-card-subtitle>
+    </mat-card>
 </div>

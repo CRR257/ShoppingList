@@ -65,6 +65,28 @@
   background-color: $primary-error !important;
 }
 
+.cdk-overlay-container {
+  background-color: $main-overlay !important;
+}
+
+.mat-dialog-container {
+  background-color: $light-grey-2;
+}
+
+.mat-form-field, .mat-input-element {
+  letter-spacing: 1.2px;
+}
+
+.mat-snack-bar-container {
+  padding: 4px !important;
+  background-color: $grey-1;
+}
+
+@media (max-width: 350px) {
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    width: 15rem;
+  }
+}
 @media (max-width: 500px) {
   .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
     margin-right: unset !important;

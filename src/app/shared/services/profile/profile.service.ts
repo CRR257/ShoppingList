@@ -76,7 +76,7 @@ export class ProfileService {
         .then(() => {
           resolve('This supermarket list has been correctly created.');
         })
-        .catch((err) => {
+        .catch(() => {
           reject('There has been an error. Try again ');
         });
     });
@@ -88,7 +88,7 @@ export class ProfileService {
         .then(() => {
           resolve('This supermarket list has been correctly updated.');
         })
-        .catch((err) => {
+        .catch(() => {
           reject('There has been an error. Try again ');
         });
     });

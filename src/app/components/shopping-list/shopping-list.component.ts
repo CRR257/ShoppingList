@@ -1,12 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth/auth-service';
-import { Router } from '@angular/router';
-import { ShoppingListService } from 'src/app/shared/services/shoppinglist/shoppinglist.service';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import { NewShoppingItem } from '../../shared/models/shoppingList.interface';
+import {AuthService} from 'src/app/shared/services/auth/auth-service';
+import {Router} from '@angular/router';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog} from '@angular/material/dialog';
+import {ShoppingListService} from 'src/app/shared/services/shoppinglist/shoppinglist.service';
+import {NewShoppingItem, ShoppingList} from '../../shared/models/shoppingList.interface';
 import {UtilsMathService} from '../../shared/services/utils/utils-math.service';
 import {ProfileService} from '../../shared/services/profile/profile.service';
 import {Supermarket} from '../../shared/models/supermarket.interface';
+import {DialogService} from '../../shared/services/dialog/dialog-service';
+import {NotificationComponent} from '../notification/notification.component';
 
 @Component({
   selector: 'app-shopping-list',
@@ -19,21 +23,21 @@ export class ShoppingListComponent implements OnInit {
   userSupermarket: Supermarket[];
   groupedSupermarket: [];
   accordionExpanded = true;
-  cardDialog = false;
   supermarketLastSelected = '';
-
 
   newItemForm = new FormGroup ({
     name: new FormControl('', Validators.required),
     placeToBuyIt: new FormControl('', Validators.required),
-    checked: new FormControl('')
   });
 
   constructor(public authService: AuthService,
               public shoppingListService: ShoppingListService,
               public router: Router,
               public utilsMathService: UtilsMathService,
-              public profileService: ProfileService) {
+              public profileService: ProfileService,
+              private dialog: MatDialog,
+              private dialogService: DialogService,
+              private snackBar: MatSnackBar) {
   }
 
   setAccordion(accordionOpen) {
@@ -41,7 +45,6 @@ export class ShoppingListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading = true;
     this.getUserLogged();
     this.getUserSupermarkets();
     this.getShoppingList();
@@ -52,14 +55,15 @@ export class ShoppingListComponent implements OnInit {
   }
 
   getUserSupermarkets() {
+    this.loading = true;
     const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
     this.profileService.getUserSuperMarkets(userSupermarkets).subscribe(supermarket => {
       if (Object.keys(supermarket).length > 0) {
         this.userSupermarket = Object.values(supermarket[0]);
         this.userSupermarket = this.userSupermarket.filter( s => s.checked);
       } else {
-         this.profileService.getSupermarkets().subscribe(supermarketDefault => {
-           this.userSupermarket = supermarketDefault.filter(s => s.checked);
+        this.profileService.getSupermarkets().subscribe(supermarketDefault => {
+          this.userSupermarket = supermarketDefault.filter(s => s.checked);
         });
       }
     });
@@ -85,13 +89,48 @@ export class ShoppingListComponent implements OnInit {
   }
 
   deleteItem(item) {
-    this.shoppingListService.deleteItem(item);
-    this.getShoppingList();
+    this.shoppingListService.deleteItem(item).then(result => {
+      this.openSnackBar(result);
+    }).catch(error => {
+      this.openSnackBar(error);
+    });
+  }
+
+  editItem(item) {
+    const data = {
+      title: 'Edit item',
+      inputPlaceholder: 'Name item',
+      nameItem: item.name,
+      errorMessage: 'Name couldn\'t be empty'
+    };
+    this.dialogService.open(data);
+    this.dialogService.confirmed().subscribe(itemCreated => {
+      if (itemCreated) {
+        const itemEdited: NewShoppingItem = {
+          name: itemCreated.name,
+          placeToBuyIt: item.placeToBuyIt,
+          isBought: false
+        };
+        this.shoppingListService.editItem(item.idShoppingList, itemEdited).then((result) => {
+          this.openSnackBar(result);
+          this.getShoppingList();
+        }).catch((error) => {
+          this.openSnackBar(error);
+        });
+      }
+    });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.openFromComponent(NotificationComponent, {
+      data: message,
+      duration: 1500
+    });
   }
 
   checkItem(item) {
     item.isBought = !item.isBought;
-    const itemBought = {
+    const itemBought: NewShoppingItem = {
       name: item.name,
       placeToBuyIt: item.placeToBuyIt,
       isBought: item.isBought
@@ -101,23 +140,27 @@ export class ShoppingListComponent implements OnInit {
   }
 
   createItem(form: NewShoppingItem) {
-    if (form.name.trim() === '' || form.placeToBuyIt === '') {
+    if (form.placeToBuyIt === '') {
+      return;
+    }
+    if (form.name.trim() === '' ) {
       this.newItemForm.get('name').setErrors({nameError: true});
       return;
     }
-    const item = {
+    const item: NewShoppingItem = {
       name: form.name.trim(),
       placeToBuyIt: form.placeToBuyIt,
       isBought: false
     };
-    this.shoppingListService.newItem(item);
-    this.getShoppingList();
-    this.newItemForm.reset({ name: '', placeToBuyIt: form.placeToBuyIt });
-    this.newItemForm.get('name').setErrors(null);
+    this.shoppingListService.newItem(item).then((result) => {
+      this.openSnackBar(result);
+      this.getShoppingList();
+      this.newItemForm.reset({ name: '', placeToBuyIt: form.placeToBuyIt });
+      this.newItemForm.get('name').setErrors(null);
+    }).catch((error) => {
+      this.openSnackBar(error);
+    });
   }
 
-  closeDialog() {
-    this.cardDialog = false;
-  }
 }
 
