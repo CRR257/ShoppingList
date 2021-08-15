@@ -8,50 +8,75 @@ import { NewShoppingItem, ShoppingList } from '../../models/shoppingList.interfa
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ShoppingListService {
-  userId = '';
-  userCollection: AngularFirestoreCollection<NewShoppingItem>;
+    userId = '';
+    userCollection: AngularFirestoreCollection<NewShoppingItem>;
 
-  constructor(
-    public afs: AngularFirestore,
-    public afAuth: AngularFireAuth,
-    public router: Router
-  ) {
+    constructor(
+        public afs: AngularFirestore,
+        public afAuth: AngularFireAuth,
+        public router: Router
+    ) {
 
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-        const collectionsName = 'shoppingList-' + `${this.userId}`;
-        this.userCollection = afs.collection<NewShoppingItem>(collectionsName);
-      }
-    });
-  }
+        this.afAuth.authState.subscribe(user => {
+            if (user) {
+                this.userId = user.uid;
+                const collectionsName = 'shoppingList-' + `${this.userId}`;
+                this.userCollection = afs.collection<NewShoppingItem>(collectionsName);
+            }
+        });
+    }
 
-  public getShoppingUser(id: string): Observable<ShoppingList[]> {
-    return this.afs.collection(id)
-     .snapshotChanges()
-     .pipe(
-       map(actions => actions.map( a => {
-         const data = a.payload.doc.data() as ShoppingList;
-         const idShoppingList = a.payload.doc.id;
-         return {idShoppingList, ...data};
-       }))
-     );
+    public getShoppingUser(id: string): Observable<ShoppingList[]> {
+        return this.afs.collection(id)
+            .snapshotChanges()
+            .pipe(
+                map(actions => actions.map( a => {
+                    const data = a.payload.doc.data() as ShoppingList;
+                    const idShoppingList = a.payload.doc.id;
+                    return {idShoppingList, ...data};
+                }))
+            );
 
-  }
+    }
 
-  public deleteItem(id) {
-    this.userCollection.doc(id).delete();
-    return this.userCollection.get();
-  }
+    public deleteItem(id): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.userCollection.doc(id).ref.get()
+                .then((doc) => {
+                if (doc.exists) {
+                    this.userCollection.doc(id).delete().then(() => {
+                        resolve('Item successfully deleted.');
+                        return this.userCollection.get();
+                    });
+                } else {
+                    reject('There has been an error. Try again. ');
+                }
+            });
+        });
+    }
 
-  public editItem(id, item) {
-    return this.userCollection.doc(id).update(item);
-  }
+    public editItem(id, item): Promise<string> {
+        return new Promise((resolve, reject) => {
+            return this.userCollection.doc(id).update(item).then(() => {
+                resolve('This document has been correctly updated.');
+            })
+                .catch(() => {
+                    reject('There has been an error. Try again ');
+                });
+        });
+    }
 
-  public newItem(item: NewShoppingItem) {
-    this.userCollection.add(item);
-  }
+    public newItem(item: NewShoppingItem): Promise<string> {
+        return new Promise((resolve, reject) => {
+        this.userCollection.add(item).then(() => {
+            resolve('Item correctly created.');
+        })
+            .catch(() => {
+                reject('There has been an error. Try again ');
+            });
+        });
+    }
 }

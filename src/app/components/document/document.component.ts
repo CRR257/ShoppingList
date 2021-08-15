@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { DocumentService } from '../../shared/services/Document/document.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { DocumentService } from '../../shared/services/document/document.service';
 import {Document, DocumentList} from '../../shared/models/document.interface';
 import {AuthService} from '../../shared/services/auth/auth-service';
 import {documentEditor} from '../../constants/editor.constants';
+import {NotificationComponent} from '../notification/notification.component';
 
 @Component({
   selector: 'app-document',
@@ -17,14 +19,16 @@ export class DocumentComponent implements OnInit {
   documentList: DocumentList[];
   documentId: string;
   documentText: string;
-  cardDialog = false;
-  messageCardDialog: string;
 
   documentForm = new FormGroup({
     text: new FormControl('')
   });
 
-  constructor(public authService: AuthService, public documentService: DocumentService) { }
+  constructor(
+      public authService: AuthService,
+      public documentService: DocumentService,
+      private snackBar: MatSnackBar) {
+  }
 
   ngOnInit(): void {
     this.loading = true;
@@ -56,25 +60,24 @@ export class DocumentComponent implements OnInit {
     };
     if (this.documentId === undefined) {
       this.documentService.newDocument(document).then(result => {
-        this.cardDialog = true;
-        this.messageCardDialog = result;
+        this.openSnackBar(result);
       }).catch(error => {
-        this.cardDialog = true;
-        this.messageCardDialog = error;
+        this.openSnackBar(error);
       });
     } else {
       this.documentService.editDocument(this.documentId, document)
         .then(result => {
-        this.cardDialog = true;
-        this.messageCardDialog = result;
+          this.openSnackBar(result);
       }).catch(error => {
-        this.cardDialog = true;
-        this.messageCardDialog = error;
+        this.openSnackBar(error);
       });
     }
   }
 
-  closeDialog() {
-    this.cardDialog = false;
+  openSnackBar(message: string) {
+    this.snackBar.openFromComponent(NotificationComponent, {
+      data: message,
+      duration: 3000
+    });
   }
 }
