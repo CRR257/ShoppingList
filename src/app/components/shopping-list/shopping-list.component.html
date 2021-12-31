@@ -9,7 +9,7 @@
 
         <mat-form-field class="d-flex mb-1">
             <input matInput placeholder="Name item" formControlName="name">
-            <mat-error>Name couldn't be empty</mat-error>
+            <mat-error>Name can't be empty</mat-error>
 
         </mat-form-field>
         <mat-form-field>
@@ -22,8 +22,9 @@
             <mat-error>Select a supermarket</mat-error>
         </mat-form-field>
         <div class="form-group">
-            <div class="pt-4">
+            <div>
                 <button mat-raised-button
+                        class="btn-large"
                         color="primary"
                 > Save </button>
 <!--                <button mat-raised-button-->

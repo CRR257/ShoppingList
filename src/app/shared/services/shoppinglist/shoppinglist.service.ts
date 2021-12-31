@@ -47,7 +47,7 @@ export class ShoppingListService {
               .then((doc) => {
                   if (doc.exists) {
                       this.userCollection.doc(id).delete().then(() => {
-                         // resolve('Item successfully deleted.');
+                          resolve('Item successfully deleted.');
                           return this.userCollection.get();
                       });
                   } else {
@@ -60,7 +60,7 @@ export class ShoppingListService {
     public editItem(id, item): Promise<string> {
         return new Promise((resolve, reject) => {
             return this.userCollection.doc(id).update(item).then(() => {
-               // resolve('This document has been correctly updated.');
+               resolve('This document has been correctly updated.');
             })
               .catch(() => {
                   reject('There has been an error. Try again ');
@@ -71,7 +71,7 @@ export class ShoppingListService {
     public newItem(item: NewShoppingItem): Promise<string> {
         return new Promise((resolve, reject) => {
             this.userCollection.add(item).then(() => {
-                // resolve('Item correctly created.');
+                 resolve('Item correctly created.');
             })
               .catch(() => {
                   reject('There has been an error. Try again ');
