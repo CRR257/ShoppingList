@@ -1,7 +1,11 @@
 @import '~src/assets/styles/app-colors';
 
 .btn-medium {
-  line-height: 30px;
+  line-height: 32px;
+}
+.btn-large {
+  line-height: 40px;
+  letter-spacing: 1.2px;
 }
 
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
@@ -43,9 +47,9 @@
   margin-bottom: 10px;
 }
 
-.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+.mat-form-field-appearance-legacy, .mat-form-field-wrapper {
   padding-bottom: 1.25em;
-  width: 18rem;
+  width: -webkit-fill-available;
 }
 
 .mat-error {
@@ -82,11 +86,6 @@
   background-color: $grey-1;
 }
 
-@media (max-width: 350px) {
-  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-    width: 15rem;
-  }
-}
 @media (max-width: 500px) {
   .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
     margin-right: unset !important;
@@ -98,5 +97,10 @@
 
   .mat-expansion-panel-header:not([aria-disabled=true]) {
     height: 48px !important;
+  }
+}
+@media (min-width: 500px) {
+  .mat-form-field-appearance-legacy, .mat-form-field-wrapper {
+    max-width: 34rem;
   }
 }
