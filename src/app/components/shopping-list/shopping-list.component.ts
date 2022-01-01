@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from 'src/app/shared/services/auth/auth-service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from '@angular/material/dialog';
+import {AuthService} from 'src/app/shared/services/auth/auth-service';
 import {ShoppingListService} from 'src/app/shared/services/shoppinglist/shoppinglist.service';
 import {UtilsMathService} from '../../shared/services/utils/utils-math.service';
 import {ProfileService} from '../../shared/services/profile/profile.service';
@@ -72,7 +72,7 @@ export class ShoppingListComponent implements OnInit {
     getShoppingList() {
         const userShoppingList = 'shoppingList-' + `${this.userId}`;
         this.shoppingListService.getShoppingUser(userShoppingList).subscribe(item => {
-            const result = item.reduce(function (r, a) {
+            const result = item.reduce(function(r, a) {
                 r[a.placeToBuyIt] = r[a.placeToBuyIt] || [];
                 r[a.placeToBuyIt].push(a);
                 return r;
@@ -169,7 +169,7 @@ export class ShoppingListComponent implements OnInit {
             shoppingItems: [],
             errorMessage: 'Name can\'t be empty'
         };
-        this.dialogService.openFastAddItems(data);
+        // this.dialogService.openFastAddItems(data);
     }
 
 }
