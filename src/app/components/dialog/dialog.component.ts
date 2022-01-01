@@ -26,7 +26,7 @@ export class DialogComponent implements OnInit {
 
     ngOnInit() {}
 
-    createItem(form) {
+  editItem(form) {
         if (form.name.trim() === '' ) {
             return;
         }

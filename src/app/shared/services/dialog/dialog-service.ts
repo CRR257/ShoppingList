@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {Observable} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {DialogComponent} from '../../../components/dialog/dialog.component';
 
@@ -12,7 +12,7 @@ export class DialogService {
 
     dialogRef: MatDialogRef<DialogComponent>;
 
-    public open(data) {
+    public openEditItem(data) {
         this.dialogRef = this.dialog.open(DialogComponent, {
             data: {
                 title: data.title,
