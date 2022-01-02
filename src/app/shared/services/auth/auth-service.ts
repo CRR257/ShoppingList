@@ -43,7 +43,7 @@ export class AuthService {
             this.userLogged = this.users[i];
           }
         }
-        const localStorage1 = new Promise((resolve, reject) => {
+        const localStorage1 = new Promise<void>((resolve, reject) => {
           if (this.userLogged) {
             localStorage.setItem('userLogged', JSON.stringify(this.userLogged));
             resolve();
@@ -52,7 +52,7 @@ export class AuthService {
           }
         });
 
-        const yell = new Promise((resolve, reject) => {
+        const yell = new Promise<void>((resolve, reject) => {
           this.ngZone.run(() => {
             this.router.navigate(['shopping-list']);
           });
@@ -76,7 +76,7 @@ export class AuthService {
     });
   }
 
-  setUser(): Promise<any> {
+  setUser(): Promise<void> {
     return new Promise((resolve, reject) => {
       localStorage.setItem('userLogged', JSON.stringify(this.userLogged));
       resolve();
