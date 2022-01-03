@@ -88,8 +88,8 @@
     "prefer-for-of": false,
     "indent": [true, "spaces", 2],
     "no-trailing-whitespace": false
-  },
-  "rulesDirectory": [
-    "codelyzer"
-  ]
+  }
+//  "rulesDirectory": [
+//    "codelyzer"
+//  ]
 }
