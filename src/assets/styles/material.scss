@@ -69,8 +69,13 @@
   background-color: $primary-error !important;
 }
 
-.cdk-overlay-container {
+.mat-select-panel {
+  max-height: unset !important;
+}
+
+.cdk-overlay-transparent-backdrop, .cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing {
   background-color: $main-overlay !important;
+  opacity: 1;
 }
 
 .mat-dialog-container {
