@@ -1,18 +1,19 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { User } from '../../models/user.interface';
+import {AngularFirestore} from '@angular/fire/firestore';
+import { Observable, Subject} from 'rxjs';
+import {map} from 'rxjs/operators';
+import { ShoppingUser } from '../../models/user.interface';
+import firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  userData: User;
-  users: User[] = [];
+  users: ShoppingUser[] = [];
   userLogged = {};
+  private user: firebase.User;
 
   private storageSub = new Subject<string>();
 
@@ -21,10 +22,10 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone
-  ) {}
-
-  watchStorage(): Observable<any> {
-    return this.storageSub.asObservable();
+  ) {
+    afAuth.authState.subscribe(user => {
+      this.user = user;
+    });
   }
 
   getAllUsers() {
@@ -33,47 +34,12 @@ export class AuthService {
     });
   }
 
-  setUserToLocalStorage() {
+  setUserToLocalStorage(loggedUser) {
     this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userLogged = {};
-        this.userData = user;
-        for (let i = 0; i < this.users.length; i++) {
-          if (this.users[i].uid === user.uid) {
-            this.userLogged = this.users[i];
-          }
-        }
-        const localStorage1 = new Promise<void>((resolve, reject) => {
-          if (this.userLogged) {
-            localStorage.setItem('userLogged', JSON.stringify(this.userLogged));
-            resolve();
-          } else {
-            reject('error');
-          }
-        });
-
-        const yell = new Promise<void>((resolve, reject) => {
-          this.ngZone.run(() => {
-            this.router.navigate(['shopping-list']);
-          });
-          resolve();
-        });
-
-        async function userToLocal() {
-          try {
-            await localStorage1;
-            await yell;
-          } catch (error) {
-            return error;
-          }
-        }
-
-        (async () => {
-          await userToLocal();
-          this.storageSub.next('userSignedIn');
-        })();
-      }
-    });
+      localStorage.setItem('userLogged', JSON.stringify(user));
+      this.router.navigate(['shopping-list']);
+      // don't return the displayName. iterate through all users to get the name
+    })
   }
 
   setUser(): Promise<void> {
@@ -83,14 +49,14 @@ export class AuthService {
     });
   }
 
-  getUsers(): Observable<User[]> {
+  getUsers(): Observable<ShoppingUser[]> {
     return this.afs
       .collection('users')
       .snapshotChanges()
       .pipe(
         map(actions =>
           actions.map(a => {
-            const data = a.payload.doc.data() as User;
+            const data = a.payload.doc.data() as ShoppingUser;
             const id = a.payload.doc.id;
             return { id, ...data };
           })
@@ -98,12 +64,17 @@ export class AuthService {
       );
   }
 
-  login(user: User) {
+  login(user: ShoppingUser) {
     const { email, password } = user;
-    return this.afAuth.signInWithEmailAndPassword(email, password);
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.signInWithEmailAndPassword(email, password)
+          .then(res => {
+            resolve(res.user);
+          }, err => reject(err))
+    })
   }
 
-  register(user: User) {
+  register(user: ShoppingUser) {
     const { email, password } = user;
     return this.afAuth.createUserWithEmailAndPassword(email, password);
   }
@@ -129,22 +100,8 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('userLogged'));
   }
 
-  AuthLogin(provider) {
-    return this.afAuth
-      .signInWithPopup(provider)
-      .then(result => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/dashboard']);
-        });
-        this.setUserData(result.user);
-      })
-      .catch(error => {
-        window.alert(error);
-      });
-  }
-
-  setUserData(user: User, name?) {
-    const userData: User = {
+  setUserData(user: ShoppingUser, name?) {
+    const userData: ShoppingUser = {
       uid: user.uid,
       email: user.email,
       displayName: name,

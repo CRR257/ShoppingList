@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { User } from '../../shared/models/user.interface';
+import { ShoppingUser } from '../../shared/models/user.interface';
 
 @Component({
   selector: 'app-sign-up',
@@ -21,7 +21,7 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  register(form: User) {
+  register(form: ShoppingUser) {
     this.authService
       .register(form)
       .then(result => {

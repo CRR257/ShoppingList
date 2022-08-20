@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {RouterModule} from '@angular/router';
 
 import {MaterialModule} from '../../shared/material-module';
 import {ShoppingListComponent} from './shopping-list.component';
@@ -11,7 +12,8 @@ import {DialogService} from '../../shared/services/dialog/dialog-service';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        RouterModule
     ],
     declarations: [
         ShoppingListComponent

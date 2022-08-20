@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/shared/models/user.interface';
+import { ShoppingUser } from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-forgot-password',
@@ -22,7 +22,7 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSign(form: User) {
+  onSign(form: ShoppingUser) {
     this.authService.forgotPassword(form)
     .then((result) => {
       this.feedback = 'Email sent to rest your password, check your inbox :) ';

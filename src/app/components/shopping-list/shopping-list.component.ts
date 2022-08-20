@@ -20,14 +20,15 @@ import {NotificationComponent} from '../notification/notification.component';
 export class ShoppingListComponent implements OnInit {
     userId = '';
     loading = false;
-    userSupermarket: Supermarket[];
-    groupedSupermarket: [];
+    userSupermarketsChecked: Supermarket[];
     accordionExpanded = true;
-    supermarketLastSelected = '';
+    supermarketSelected;
+    listIdsToDelete = [];
+    supermarketsResults;
 
     newItemForm = new FormGroup({
         name: new FormControl('', Validators.required),
-        placeToBuyIt: new FormControl('', Validators.required),
+        supermarketId: new FormControl('', Validators.required),
     });
 
     constructor(public authService: AuthService,
@@ -40,8 +41,14 @@ export class ShoppingListComponent implements OnInit {
                 private snackBar: MatSnackBar) {
     }
 
-    setAccordion(accordionOpen) {
-        this.accordionExpanded = accordionOpen;
+    setAccordion(supermarketSelected) {
+        // this.profileService.modifyUserSupermarketList(userSupermarketSelected).then(result => {
+        //    console.log('result', result)
+        // }).catch(error => {
+        //     console.log('error', error)
+        // });
+        // this.supermarketsResults.item.showItems = !this.supermarketsResults.item.showItems;
+        // I'm adding the showItems to false for each supermarket. call the profile component and change the sheoItems for true for ex.
     }
 
     ngOnInit(): void {
@@ -51,19 +58,20 @@ export class ShoppingListComponent implements OnInit {
     }
 
     getUserLogged() {
-        this.userId = this.authService.getUserLogged().id;
+        this.userId = this.authService.getUserLogged().uid;
     }
 
     getUserSupermarkets() {
         this.loading = true;
+        let userSupermarketsGlobal: Supermarket[];
         const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
         this.profileService.getUserSuperMarkets(userSupermarkets).subscribe(supermarket => {
-            if (Object.keys(supermarket).length > 0) {
-                this.userSupermarket = Object.values(supermarket[0]);
-                this.userSupermarket = this.userSupermarket.filter(s => s.checked);
+            if ( supermarket) {
+                userSupermarketsGlobal = Object.values(supermarket[0]);
+                this.userSupermarketsChecked = userSupermarketsGlobal.filter(s => s.checked);
             } else {
                 this.profileService.getSupermarkets().subscribe(supermarketDefault => {
-                    this.userSupermarket = supermarketDefault.filter(s => s.checked);
+                    userSupermarketsGlobal = supermarketDefault.filter(s => s.checked);
                 });
             }
         });
@@ -73,28 +81,43 @@ export class ShoppingListComponent implements OnInit {
         const userShoppingList = 'shoppingList-' + `${this.userId}`;
         this.shoppingListService.getShoppingUser(userShoppingList).subscribe(item => {
             const result = item.reduce(function(r, a) {
-                r[a.placeToBuyIt] = r[a.placeToBuyIt] || [];
-                r[a.placeToBuyIt].push(a);
-                return r;
+                if (a.placeToBuyIt) {
+                    r[a.placeToBuyIt] = r[a.placeToBuyIt] || [];
+                    r[a.id] = r[a.id] || '';
+                    r[a.placeToBuyIt].push(a);
+                    return r;
+                }
             }, Object.create(null));
 
-            const supermarkets = Object.entries(result);
-            this.groupedSupermarket = this.utilsMathService.sort(supermarkets);
-
-            for (let i = 0; i < this.groupedSupermarket.length; i++) {
-                this.utilsMathService.sortItemsByNameBoughtProperty(this.groupedSupermarket[i]);
-            }
+            // const supermarketSorted =  this.utilsMathService.sortItemsByName(result);
+            // this.supermarketsResults = supermarketSorted;
+            this.supermarketsResults = result;
+            // for (const key in result) {
+            //     for (let i = 0; i < result[key].length; i++) {
+            //         this.supermarketsResults = this.utilsMathService.sortItemsByNameBoughtProperty(result[key][i]);
+            //     }
+            // }
             this.loading = false;
         });
     }
 
     deleteItem(item) {
         this.shoppingListService.deleteItem(item).then(result => {
-           // this.openSnackBar(result);
+            // this.openSnackBar(result);
         }).catch(error => {
-            this.openSnackBar(error);
+            //  this.openSnackBar(error);
         });
     }
+
+    // deleteAllItemsSupermarket() {
+    //     const item = '';
+    //     const listOfIds = [];
+    //     // this.shoppingListService.deleteAllItemsCollection(item, listOfIds).then(result => {
+    //     //     // this.openSnackBar(result);
+    //     // }).catch(error => {
+    //     //     this.openSnackBar(error);
+    //     // });
+    // }
 
     editItem(item) {
         const data = {
@@ -108,7 +131,8 @@ export class ShoppingListComponent implements OnInit {
             if (itemCreated) {
                 const itemEdited: NewShoppingItem = {
                     name: itemCreated.name,
-                    placeToBuyIt: item.placeToBuyIt,
+                    supermarketId: item.supermarketId,
+                    placeToBuyIt: this.supermarketSelected,
                     isBought: false
                 };
                 this.shoppingListService.editItem(item.idShoppingList, itemEdited).then((result) => {
@@ -133,6 +157,7 @@ export class ShoppingListComponent implements OnInit {
         const itemBought: NewShoppingItem = {
             name: item.name,
             placeToBuyIt: item.placeToBuyIt,
+            supermarketId: item.supermarketId,
             isBought: item.isBought
         };
         this.shoppingListService.editItem(item.idShoppingList, itemBought);
@@ -140,7 +165,7 @@ export class ShoppingListComponent implements OnInit {
     }
 
     createItem(form: NewShoppingItem) {
-        if (form.placeToBuyIt === '') {
+        if (!form.supermarketId) {
             return;
         }
         if (form.name.trim() === '') {
@@ -149,28 +174,23 @@ export class ShoppingListComponent implements OnInit {
         }
         const item: NewShoppingItem = {
             name: form.name.trim(),
-            placeToBuyIt: form.placeToBuyIt,
+            placeToBuyIt: this.supermarketSelected,
+            supermarketId: form.supermarketId,
             isBought: false
+
         };
         this.shoppingListService.newItem(item).then((result) => {
-           //  this.openSnackBar(result);
+            //  this.openSnackBar(result);
             this.getShoppingList();
-            this.newItemForm.reset({name: '', placeToBuyIt: form.placeToBuyIt});
+            this.newItemForm.reset({name: '', supermarketId: form.supermarketId});
             this.newItemForm.get('name').setErrors(null);
         }).catch((error) => {
             this.openSnackBar(error);
         });
     }
 
-    fastAddingItems() {
-        const data = {
-            title: 'Add items fast',
-            inputPlaceholder: 'Name item',
-            shoppingItems: [],
-            errorMessage: 'Name can\'t be empty'
-        };
-        // this.dialogService.openFastAddItems(data);
+    getNameSupermarketSelected(supermarketName) {
+        this.supermarketSelected = supermarketName;
     }
-
 }
 

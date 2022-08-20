@@ -56,7 +56,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.getSupermarkets().subscribe(supermarket => {
       this.supermarket = this.utilsMathService.sortItemsByName(supermarket);
       this.supermarket.forEach(s => {
-        controls[s.name] = new FormControl({checked: s.checked});
+        controls[s.name] = new FormControl({checked: s.checked, id: s.id});
       });
     });
     return new FormGroup(controls);
@@ -66,13 +66,14 @@ export class ProfileComponent implements OnInit {
     const controls: { [p: string]: AbstractControl } = {};
     const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
     this.profileService.getUserSuperMarkets(userSupermarkets).subscribe(supermarket => {
-      if (Object.keys(supermarket).length > 0) {
+      if (supermarket) {
         this.supermarket = this.utilsMathService.sortItemsByName(supermarket);
         this.supermarket = Object.values(this.supermarket[0]);
       }
       for (const item in Object(this.supermarket)) {
         if (Object(this.supermarket[item])) {
-        controls[Object(this.supermarket[item]).name] = new FormControl({checked: Object(this.supermarket[item]).checked});
+        controls[Object(this.supermarket[item]).name] = new FormControl(
+            {checked: Object(this.supermarket[item]).checked, id:Object(this.supermarket[item]).checked});
         }
       }
     });
@@ -106,9 +107,9 @@ export class ProfileComponent implements OnInit {
     this.supermarketsChecked = [];
     for (let item = 0; item < this.supermarket.length; item ++) {
       if (this.supermarketsListFormControl.controls.supermarkets.get(this.supermarket[item].name).value.checked) {
-        this.supermarketsChecked.push({name: this.supermarket[item].name, checked: true});
+        this.supermarketsChecked.push({name: this.supermarket[item].name, checked: true, showItems: false, id: this.supermarket[item].id});
       } else {
-        this.supermarketsChecked.push({name: this.supermarket[item].name, checked: false});
+        this.supermarketsChecked.push({name: this.supermarket[item].name, checked: false, showItems: false, id: this.supermarket[item].id});
       }
     }
   }

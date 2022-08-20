@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
-import { User } from 'src/app/shared/models/user.interface';
+import { ShoppingUser } from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-sign-in',
@@ -26,17 +26,16 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.logout();
-    this.authService.getAllUsers();
   }
 
-  onLogin(form: User) {
-    this.authService
-      .login(form)
-      .then(result => {
-        this.authService.setUserToLocalStorage();
-      })
-      .catch(error => {
-        this.error = error;
-      });
+  onLogin(form: ShoppingUser) {
+      this.authService
+        .login(form)
+        .then(user => {
+          this.authService.setUserToLocalStorage(user);
+        })
+        .catch(error => {
+          this.error = error;
+        });
   }
 }

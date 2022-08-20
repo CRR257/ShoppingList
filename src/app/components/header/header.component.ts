@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
-import { User } from '../../shared/models/user.interface';
+import { ShoppingUser } from '../../shared/models/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +8,7 @@ import { User } from '../../shared/models/user.interface';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  userLogged: User;
+  userLogged: ShoppingUser;
 
   constructor( public authService: AuthService ) {}
 
@@ -16,13 +16,18 @@ export class HeaderComponent implements OnInit {
     this.getUserLogged();
   }
 
+  // getUserLogged() {
+  //   this.authService.watchStorage().subscribe((data: string) => {
+  //     console.log('data', data)
+  //     if (data === 'userSignedIn') {
+  //       this.userLogged = this.authService.getUserLogged();
+  //     } else if (data === 'userLogout') {
+  //       this.userLogged = null;
+  //     }
+  //   });
+  // }
+
   getUserLogged() {
-    this.authService.watchStorage().subscribe((data: string) => {
-      if (data === 'userSignedIn') {
-        this.userLogged = this.authService.getUserLogged();
-      } else if (data === 'userLogout') {
-        this.userLogged = null;
-      }
-    });
+    this.userLogged = this.authService.getUserLogged();
   }
 }

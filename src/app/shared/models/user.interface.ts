@@ -1,4 +1,4 @@
-export interface User {
+export interface ShoppingUser {
     uid?: string;
     email: string;
     password?: string;

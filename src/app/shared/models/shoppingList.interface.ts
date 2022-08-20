@@ -7,6 +7,9 @@ export interface ShoppingList {
 
 export interface NewShoppingItem {
   name: string;
+  // productName: string;
+  supermarketName?: string;
   placeToBuyIt: string;
+  supermarketId: number;
   isBought: boolean;
 }
