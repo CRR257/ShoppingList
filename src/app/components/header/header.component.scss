@@ -3,6 +3,9 @@
   display: flex;
   justify-content: space-between;
 }
+.nav-link {
+  cursor: pointer;
+}
 
 @media (min-width: 992px) {
 .navbar-expand-lg .navbar-collapse {

@@ -3,13 +3,14 @@ import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog} from '@angular/material/dialog';
+
+import {NewShoppingItem} from 'src/app/shared/models/shoppingList.interface';
+import {Supermarket} from 'src/app/shared/models/supermarket.interface';
 import {AuthService} from 'src/app/shared/services/auth/auth-service';
-import {ShoppingListService} from 'src/app/shared/services/shoppinglist/shoppinglist.service';
-import {UtilsMathService} from '../../shared/services/utils/utils-math.service';
-import {ProfileService} from '../../shared/services/profile/profile.service';
-import {DialogService} from '../../shared/services/dialog/dialog-service';
-import {NewShoppingItem} from '../../shared/models/shoppingList.interface';
-import {Supermarket} from '../../shared/models/supermarket.interface';
+import {ShoppingListService} from 'src/app/components/shopping-list/shoppinglist.service';
+import {UtilsMathService} from 'src/app/shared/services/utils/utils-math.service';
+import {ProfileService} from 'src/app/shared/services/profile/profile.service';
+import {DialogService} from 'src/app/shared/services/dialog/dialog-service';
 import {NotificationComponent} from '../notification/notification.component';
 
 @Component({
@@ -18,12 +19,12 @@ import {NotificationComponent} from '../notification/notification.component';
     styleUrls: ['./shopping-list.component.scss']
 })
 export class ShoppingListComponent implements OnInit {
-    userId = '';
+    userId: string;
     loading = false;
-    userSupermarket: Supermarket[];
-    groupedSupermarket: [];
     accordionExpanded = true;
-    supermarketLastSelected = '';
+    supermarketLastSelected;
+    userSupermarketsChecked: Supermarket[];
+    supermarketsResults = [];
 
     newItemForm = new FormGroup({
         name: new FormControl('', Validators.required),
@@ -40,10 +41,6 @@ export class ShoppingListComponent implements OnInit {
                 private snackBar: MatSnackBar) {
     }
 
-    setAccordion(accordionOpen) {
-        this.accordionExpanded = accordionOpen;
-    }
-
     ngOnInit(): void {
         this.getUserLogged();
         this.getUserSupermarkets();
@@ -51,39 +48,48 @@ export class ShoppingListComponent implements OnInit {
     }
 
     getUserLogged() {
-        this.userId = this.authService.getUserLogged().id;
+        this.userId = this.authService.getUserLogged().uid;
     }
 
-    getUserSupermarkets() {
+    async getUserSupermarkets() {
         this.loading = true;
         const userSupermarkets = 'supermarketsUserList-' + `${this.userId}`;
-        this.profileService.getUserSuperMarkets(userSupermarkets).subscribe(supermarket => {
-            if (Object.keys(supermarket).length > 0) {
-                this.userSupermarket = Object.values(supermarket[0]);
-                this.userSupermarket = this.userSupermarket.filter(s => s.checked);
+        let userSupermarketsGlobal: Supermarket[];
+        await this.profileService.getUserSuperMarkets(userSupermarkets).subscribe(supermarket => {
+            if ( supermarket) {
+                userSupermarketsGlobal = Object.values(supermarket[0]);
+                this.userSupermarketsChecked = userSupermarketsGlobal.filter(s => s.checked);
             } else {
                 this.profileService.getSupermarkets().subscribe(supermarketDefault => {
-                    this.userSupermarket = supermarketDefault.filter(s => s.checked);
+                    userSupermarketsGlobal = supermarketDefault.filter(s => s.checked);
                 });
             }
         });
     }
 
-    getShoppingList() {
+    async getShoppingList() {
+        this.loading = true;
         const userShoppingList = 'shoppingList-' + `${this.userId}`;
-        this.shoppingListService.getShoppingUser(userShoppingList).subscribe(item => {
-            const result = item.reduce(function(r, a) {
-                r[a.placeToBuyIt] = r[a.placeToBuyIt] || [];
-                r[a.placeToBuyIt].push(a);
-                return r;
+        await this.shoppingListService.getShoppingUser(userShoppingList).subscribe(item => {
+            const shoppingList = item.reduce(function(r, a) {
+                if (a.placeToBuyIt) {
+                    r[a.placeToBuyIt] = r[a.placeToBuyIt] || [];
+                    r[a.id] = r[a.id] || '';
+                    r[a.placeToBuyIt].push(a);
+                    return r;
+                }
             }, Object.create(null));
 
-            const supermarkets = Object.entries(result);
-            this.groupedSupermarket = this.utilsMathService.sort(supermarkets);
-
-            for (let i = 0; i < this.groupedSupermarket.length; i++) {
-                this.utilsMathService.sortItemsByNameBoughtProperty(this.groupedSupermarket[i]);
-            }
+            for (const key in shoppingList) {
+                    if (shoppingList) { //
+                        for (let i = 0; i < shoppingList[key].length; i++) {
+                            const supermarketSortedItems = this.utilsMathService.sortItemsByNameBoughtProperty(shoppingList[key]);
+                            shoppingList[key] = [];
+                            shoppingList[key].push(supermarketSortedItems);
+                        }
+                    }
+                }
+            this.supermarketsResults = shoppingList;
             this.loading = false;
         });
     }
@@ -96,22 +102,20 @@ export class ShoppingListComponent implements OnInit {
         });
     }
 
-    editItem(item) {
+    async editItem(itemSelected) {
         const data = {
             title: 'Edit item',
             inputPlaceholder: 'Name item',
-            nameItem: item.name,
+            nameItem: itemSelected.name,
             errorMessage: 'Name can\'t be empty'
         };
         this.dialogService.openEditItem(data);
-        this.dialogService.confirmed().subscribe(itemCreated => {
-            if (itemCreated) {
-                const itemEdited: NewShoppingItem = {
-                    name: itemCreated.name,
-                    placeToBuyIt: item.placeToBuyIt,
-                    isBought: false
+        await this.dialogService.confirmed().subscribe(item => {
+            if (item) {
+                const itemEdited = {
+                    name: item.name,
                 };
-                this.shoppingListService.editItem(item.idShoppingList, itemEdited).then((result) => {
+                this.shoppingListService.editItem(itemSelected.idShoppingList, itemEdited).then((result) => {
                     // this.openSnackBar(result);
                     this.getShoppingList();
                 }).catch((error) => {
@@ -161,16 +165,5 @@ export class ShoppingListComponent implements OnInit {
             this.openSnackBar(error);
         });
     }
-
-    fastAddingItems() {
-        const data = {
-            title: 'Add items fast',
-            inputPlaceholder: 'Name item',
-            shoppingItems: [],
-            errorMessage: 'Name can\'t be empty'
-        };
-        // this.dialogService.openFastAddItems(data);
-    }
-
 }
 

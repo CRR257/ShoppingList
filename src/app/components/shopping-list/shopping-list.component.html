@@ -15,7 +15,7 @@
         <mat-form-field>
             <mat-label>Where to buy it:</mat-label>
             <mat-select [(value)]="supermarketLastSelected" formControlName="placeToBuyIt">
-                <mat-option *ngFor="let supermarket of userSupermarket" value="{{supermarket.name}}">
+                <mat-option *ngFor="let supermarket of userSupermarketsChecked" value="{{supermarket.name}}">
                     {{supermarket.name}}
                 </mat-option>
             </mat-select>
@@ -28,19 +28,16 @@
                         class="btn-large"
                         color="primary"
                 > Save </button>
-<!--                <button mat-raised-button-->
-<!--                        color="primary"-->
-<!--                        (click)="fastAddingItems()"-->
-<!--                > Fast add </button>-->
             </div>
         </div>
     </form>
 
-    <mat-accordion [multi]="true" *ngFor="let supermarketList of groupedSupermarket">
-        <mat-expansion-panel [expanded]="accordionExpanded" (opened)="setAccordion(true)" hideToggle="true">
-            <mat-expansion-panel-header> {{supermarketList[0]}}
+    <mat-accordion [multi]="true" *ngFor="let item of supermarketsResults | keyvalue">
+        <mat-expansion-panel [expanded]="accordionExpanded" hideToggle="true" *ngIf="item.key !== 'undefined' ">
+            <!--        <mat-expansion-panel [expanded]="supermarketsResults[item.key].showItems" (opened)="setAccordion(supermarketsResults[item.key].id)" hideToggle="true">-->
+            <mat-expansion-panel-header>{{item.key}}
             </mat-expansion-panel-header>
-            <mat-panel-description *ngFor="let item of supermarketList[1]"
+            <mat-panel-description *ngFor="let item of supermarketsResults[item.key][0]"
                                    [ngClass]="{'item-bought' : item.isBought}"
                                    (click)="$event.stopPropagation()"
             >
@@ -67,9 +64,9 @@
 
 </div>
 
-<div class="container-card mt">
-    <mat-card *ngIf="groupedSupermarket && groupedSupermarket.length == 0">
-        <mat-card-subtitle>There's no supermarket list yet. Add some items!</mat-card-subtitle>
-        <mat-card-subtitle>You can modify the supermarket's list in <a routerLink="/profile">Profile</a></mat-card-subtitle>
+<div class="container-card">
+    <mat-card *ngIf="(supermarketsResults | json) == '{}'">
+        <mat-card-subtitle>Your supermarket list is empty!</mat-card-subtitle>
+        <mat-card-subtitle class="mt-3">You can modify the supermarket's list in your <a [routerLink]="['/profile']">Profile</a>.</mat-card-subtitle>
     </mat-card>
 </div>
