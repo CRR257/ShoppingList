@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { DocumentService } from '../../shared/services/document/document.service';
+import { DocumentService } from './document.service';
 import {Document, DocumentList} from '../../shared/models/document.interface';
 import {AuthService} from '../../shared/services/auth/auth-service';
 import {documentEditor} from '../../constants/editor.constants';

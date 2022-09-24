@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { User } from '../../shared/models/user.interface';
+
+import {UserSingUpFormModel} from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent{
   error = '';
 
   registerForm = new FormGroup({
@@ -19,14 +20,11 @@ export class SignUpComponent implements OnInit {
 
   constructor(public authService: AuthService) {}
 
-  ngOnInit(): void {}
-
-  register(form: User) {
+  onUserSignUp(form: UserSingUpFormModel) {
     this.authService
-      .register(form)
+      .signUpUser(form)
       .then(result => {
         this.authService.sendVerificationMail();
-        this.authService.setUserData(result.user, form.displayName);
       })
       .catch(error => {
         this.error = error;

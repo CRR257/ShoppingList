@@ -22,6 +22,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ### Technology
 
-Angular 9 && Typescript && Firebase
+Angular 13 && Typescript && Firebase
 
 

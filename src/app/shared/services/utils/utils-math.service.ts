@@ -5,18 +5,12 @@ export class UtilsMathService {
   constructor() {
   }
 
-  sort(item) {
-    return item.sort((a, b) => (a < b) ? -1 : ((a > b) ? 1 : 0));
-  }
-
   sortItemsByName(item) {
     return item.sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 :
       ((a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : 0));
   }
 
   sortItemsByNameBoughtProperty(item) {
-    const sortByName = item[1].sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase()) ? -1 :
-      ((a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : 0));
-    return sortByName.sort((a, b) => (a.isBought < b.isBought) ? -1 : ((a.isBought > b.isBought) ? 1 : 0 ));
+    return item.sort((a, b) => Number(a.isBought) - Number(b.isBought) || a.name.localeCompare(b.name.toLowerCase()));
   }
 }

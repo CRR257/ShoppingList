@@ -4,7 +4,8 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Document, DocumentList } from '../../models/document.interface';
+
+import { Document, DocumentList } from 'src/app/shared/models/document.interface';
 
 @Injectable({
   providedIn: 'root'

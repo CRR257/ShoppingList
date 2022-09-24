@@ -1,17 +1,17 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import {UserSingUpFormModel} from 'src/app/shared/models/user.interface';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
-import { User } from 'src/app/shared/models/user.interface';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent implements OnInit {
-  emailIsVerified = false;
-  error = '';
+export class SignInComponent {
+  error: string;
 
   loginForm = new FormGroup({
     email: new FormControl('', Validators.required),
@@ -20,23 +20,18 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    public router: Router,
-    public ngZone: NgZone
+    public router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.authService.logout();
-    this.authService.getAllUsers();
-  }
-
-  onLogin(form: User) {
-    this.authService
-      .login(form)
-      .then(result => {
-        this.authService.setUserToLocalStorage();
-      })
-      .catch(error => {
-        this.error = error;
-      });
+  async onUserSignIn(loginForm: UserSingUpFormModel) {
+    try {
+    const userData = await this.authService.signInUser(loginForm);
+    if (userData) {
+      await this.authService.setUserToLocalStorage(userData)
+      await this.router.navigate(['shopping-list']);
+    }
+    } catch (err) {
+      this.error = err;
+    }
   }
 }

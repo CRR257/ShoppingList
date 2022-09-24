@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from 'rxjs';
+
+import {UserModel, UserStatus} from 'src/app/shared/models/user.interface';
 import { AuthService } from 'src/app/shared/services/auth/auth-service';
-import { User } from '../../shared/models/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -8,21 +10,23 @@ import { User } from '../../shared/models/user.interface';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  userLogged: User;
+  userStatus: Observable<string>;
+  userData: UserModel;
 
   constructor( public authService: AuthService ) {}
 
   ngOnInit(): void {
-    this.getUserLogged();
+    this.isUserLogged();
   }
 
-  getUserLogged() {
-    this.authService.watchStorage().subscribe((data: string) => {
-      if (data === 'userSignedIn') {
-        this.userLogged = this.authService.getUserLogged();
-      } else if (data === 'userLogout') {
-        this.userLogged = null;
+  isUserLogged() {
+    this.userStatus = this.authService.watchStorage();
+    this.userStatus.subscribe((userStatus) => {
+      if(userStatus === UserStatus.userLogged) {
+        this.userData = this.authService.getUserLogged();
+      } else {
+        this.userData = {} as UserModel;
       }
-    });
+    } )
   }
 }
