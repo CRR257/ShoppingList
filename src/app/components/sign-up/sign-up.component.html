@@ -1,42 +1,64 @@
 <div class="container">
-  <form [formGroup]="registerForm" (ngSubmit)="onUserSignUp(registerForm.value)">
+  <form
+    [formGroup]="registerForm"
+    (ngSubmit)="onUserSignUp(registerForm.value)"
+  >
     <h3>Sign Up</h3>
     <div class="mb-3 m-3">
-
       <div class="formGroup mt-3">
         <span class="form-label">Name: </span>
-        <input type="text" class="form-control mt-2" placeholder="Name" formControlName="displayName" required>
+        <input
+          type="text"
+          class="form-control mt-2"
+          placeholder="Name"
+          formControlName="displayName"
+          required
+        />
       </div>
 
       <div class="formGroup mt-3">
         <span class="form-label">Email: </span>
-        <input type="email" class="form-control mt-2" placeholder="Email Address" formControlName="email" required>
+        <input
+          type="email"
+          class="form-control mt-2"
+          placeholder="Email Address"
+          formControlName="email"
+          required
+        />
       </div>
 
       <div class="formGroup mt-3">
         <span class="form-label">Password: </span>
-        <input type="password" class="form-control mt-2" placeholder="Password" formControlName="password" required>
+        <input
+          type="password"
+          class="form-control mt-2"
+          placeholder="Password"
+          formControlName="password"
+          required
+        />
       </div>
 
       <div class="formGroup mt-3" *ngIf="error">
-        <span class="error">{{error}}</span>
+        <span class="error">{{ error }}</span>
       </div>
 
       <div class="formGroup mt-3">
-        <button mat-raised-button
-                color="primary"
-                type="submit"
-        > Register </button>
+        <button mat-raised-button color="primary" type="submit">
+          Register
+        </button>
       </div>
     </div>
   </form>
 
   <div class="m-3">
     <span class="mr-2">Already have an account?</span>
-    <button mat-raised-button
-            color="primary"
-            class="btn-medium"
-            routerLink="/sign-in"
-    > Sign In </button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="btn-medium"
+      routerLink="/sign-in"
+    >
+      Sign In
+    </button>
   </div>
 </div>

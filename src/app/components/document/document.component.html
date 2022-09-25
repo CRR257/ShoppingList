@@ -1,5 +1,4 @@
 <div class="container">
-
   <div class="wrapper-spinner">
     <mat-spinner *ngIf="loading" [diameter]="60"></mat-spinner>
   </div>
@@ -8,23 +7,27 @@
   <form [formGroup]="documentForm">
     <div class="mb-3">
       <editor
-        [apiKey]=apiKey
+        [apiKey]="apiKey"
         formControlName="text"
-        [(ngModel)]='documentText'
+        [(ngModel)]="documentText"
         [init]="{
-        icons: 'material',
-        skin: 'borderless',
-        plugins: '',
-        toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter ' +
-         'pageembed permanentpen table',
-        min_height: 500
+          icons: 'material',
+          skin: 'borderless',
+          plugins: '',
+          toolbar:
+            'a11ycheck addcomment showcomments casechange checklist code export formatpainter ' +
+            'pageembed permanentpen table',
+          min_height: 500
         }"
       ></editor>
     </div>
-    <button mat-raised-button
-            color="primary"
-            class="btn-large"
-            (click)="modifyDocument(documentForm.value)"
-    > Save </button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="btn-large"
+      (click)="modifyDocument(documentForm.value)"
+    >
+      Save
+    </button>
   </form>
 </div>
