@@ -65,7 +65,7 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
 
-  logout() {
+  signOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.user$.next(UserStatus.userLogout);

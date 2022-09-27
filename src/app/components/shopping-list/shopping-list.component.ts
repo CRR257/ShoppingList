@@ -100,7 +100,7 @@ export class ShoppingListComponent implements OnInit {
     this.shoppingListService
       .deleteItem(itemId)
       .then((result) => {
-        // this.openSnackBar(result);
+        this.openSnackBar(result);
       })
       .catch((error) => {
         this.openSnackBar(error);
@@ -114,7 +114,8 @@ export class ShoppingListComponent implements OnInit {
       nameItem: itemSelected.name,
       errorMessage: 'Name can\'t be empty',
     };
-    this.dialogService.openEditItem(data);
+    const width = '400px';
+    this.dialogService.openEditItem(data, width);
     await this.dialogService.confirmed().subscribe((item) => {
       if (item) {
         const itemEdited = {
@@ -123,7 +124,7 @@ export class ShoppingListComponent implements OnInit {
         this.shoppingListService
           .editItem(itemSelected.idShoppingList, itemEdited)
           .then((result) => {
-            // this.openSnackBar(result);
+            this.openSnackBar(result);
             this.getShoppingList();
           })
           .catch((error) => {

@@ -3,16 +3,16 @@
     <mat-spinner *ngIf="spinner" [diameter]="60"></mat-spinner>
   </div>
 
-  <h3>Profile</h3>
+  <h2 class="mb-4">Profile</h2>
   <form
     *ngIf="supermarket && supermarket.length > 0"
     [formGroup]="supermarketsListFormControl"
     (ngSubmit)="onSubmit()"
   >
     <div>
-      <span>Select the supermarket do you usually do your groceries:</span>
+      <span>Select the supermarkets do you usually do your groceries:</span>
       <div class="mt-4 mb-3">
-        <div *ngFor="let item of supermarket" class="form-check m-2">
+        <div *ngFor="let item of supermarket" class="m-2">
           <mat-checkbox
             (change)="onChangeChecked(item.name)"
             [checked]="item.checked"

@@ -79,9 +79,19 @@
 }
 
 .mat-dialog-container {
-  background-color: $light-grey-2;
+  background-color: $main-background;
+  padding: 40px !important;
 }
 
+.mat-dialog-title {
+  letter-spacing: 1.1px !important;
+  font: 400 16px Roboto, "Helvetica Neue", sans-serif;
+  color: $light-grey;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end !important;
+}
 .mat-form-field, .mat-input-element {
   letter-spacing: 1.2px;
 }
@@ -89,6 +99,11 @@
 .mat-snack-bar-container {
   padding: 4px !important;
   background-color: $grey-1;
+}
+
+.mat-menu-content {
+  background-color: $grey-2;
+  width: 130px;
 }
 
 @media (max-width: 500px) {

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#" *ngIf="!userData">ShoppingList App</a>
+  <a class="navbar-brand" href="#" *ngIf="!userData">ShoppingList App 🍎</a>
   <p *ngIf="userData" class="navbar-brand">
     Welcome {{ userData.displayName }}
   </p>
@@ -32,8 +32,8 @@
     <div>
       <ul class="navbar-nav" *ngIf="userData" routerLinkActive="active">
         <li>
-          <a class="nav-link" *ngIf="userData" (click)="authService.logout()">
-            <i class="fas fa-sign-out-alt"></i>Log out
+          <a class="nav-link" *ngIf="userData" (click)="signOut()">
+            <i class="fas fa-sign-out-alt"></i>Sign out
           </a>
         </li>
       </ul>

@@ -10,8 +10,9 @@ export class DialogService {
 
   dialogRef: MatDialogRef<DialogComponent>;
 
-  public openEditItem(data: any) {
+  public openEditItem(data: any, width: string) {
     this.dialogRef = this.dialog.open(DialogComponent, {
+      width,
       data: {
         title: data.title,
         inputPlaceholder: data.inputPlaceholder,

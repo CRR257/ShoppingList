@@ -3,7 +3,7 @@
     [formGroup]="registerForm"
     (ngSubmit)="onUserSignUp(registerForm.value)"
   >
-    <h3>Sign Up</h3>
+    <h2 class="mb-4">Sign Up</h2>
     <div class="mb-3 m-3">
       <div class="formGroup mt-3">
         <span class="form-label">Name: </span>
@@ -42,9 +42,9 @@
         <span class="error">{{ error }}</span>
       </div>
 
-      <div class="formGroup mt-3">
+      <div class="formGroup mt-4">
         <button mat-raised-button color="primary" type="submit">
-          Register
+          Sign Up
         </button>
       </div>
     </div>
