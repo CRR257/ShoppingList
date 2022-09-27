@@ -1,27 +1,31 @@
-<div class="container" [ngClass]="{ 'container-overlay' : cardDialog}" >
+<div class="container" [ngClass]="{ 'container-overlay': cardDialog }">
   <div class="wrapper-spinner">
     <mat-spinner *ngIf="spinner" [diameter]="60"></mat-spinner>
   </div>
 
   <h3>Profile</h3>
-  <form *ngIf="supermarket && supermarket.length > 0" [formGroup]="supermarketsListFormControl"
-        (ngSubmit)="onSubmit()">
+  <form
+    *ngIf="supermarket && supermarket.length > 0"
+    [formGroup]="supermarketsListFormControl"
+    (ngSubmit)="onSubmit()"
+  >
     <div>
       <span>Select the supermarket do you usually do your groceries:</span>
       <div class="mt-4 mb-3">
         <div *ngFor="let item of supermarket" class="form-check m-2">
-          <mat-checkbox (change)="onChangeChecked(item.name)"
-                        [checked]=item.checked
-                        [disabled]="cardDialog"
-                        type="checkbox"
-          > {{item.name}} </mat-checkbox>
+          <mat-checkbox
+            (change)="onChangeChecked(item.name)"
+            [checked]="item.checked"
+            [disabled]="cardDialog"
+            type="checkbox"
+          >
+            {{ item.name }}
+          </mat-checkbox>
         </div>
       </div>
     </div>
-    <button [disabled]="cardDialog"
-            color="primary"
-            mat-raised-button
-    > Save
+    <button [disabled]="cardDialog" color="primary" mat-raised-button>
+      Save
     </button>
   </form>
 </div>
@@ -29,7 +33,7 @@
 <div class="container-card">
   <mat-card *ngIf="cardDialog">
     <mat-card-header>
-      <mat-card-subtitle>{{messageCardDialog}}</mat-card-subtitle>
+      <mat-card-subtitle>{{ messageCardDialog }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions>
       <button
@@ -37,7 +41,8 @@
         color="primary"
         mat-button
         mat-flat-button
-      >Ok
+      >
+        Ok
       </button>
     </mat-card-actions>
   </mat-card>
