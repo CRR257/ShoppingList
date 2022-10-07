@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProfileService } from '../../shared/services/profile/profile.service';
-import { AuthService } from '../../shared/services/auth/auth-service';
-import { UtilsMathService } from '../../shared/services/utils/utils-math.service';
-import { SupermarketModel } from '../../shared/models/supermarket.interface';
+import { ProfileService } from 'src/app/shared/services/profile/profile.service';
+import { AuthService } from 'src/app/shared/services/auth/auth-service';
+import { UtilsMathService } from 'src/app/shared/services/utils/utils-math.service';
+import { SupermarketModel } from 'src/app/shared/models/supermarket.interface';
 
 @Component({
   selector: 'app-profile',
